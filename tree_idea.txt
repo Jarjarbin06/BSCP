@@ -1,0 +1,95 @@
+BSCP/
+│
+├── main.py
+├── requirements.txt
+├── README.md
+│
+├── config/
+│   ├── settings.py
+│   ├── constants.py
+│   └── colors.py
+│
+├── core/
+│   ├── game.py
+│   ├── window.py
+│   ├── clock.py
+│   └── event_manager.py
+│
+├── engine/
+│   ├── camera.py
+│   ├── renderer.py
+│   ├── sprite.py
+│   ├── animation.py
+│   └── depth_sorter.py
+│
+├── map/
+│   ├── map.py
+│   ├── tile.py
+│   ├── tilemap.py
+│   ├── map_loader.py
+│   └── map_editor.py
+│
+├── entities/
+│   ├── entity.py
+│   ├── npc.py
+│   ├── player.py
+│   │
+│   ├── factions/
+│   │   ├── scd.py
+│   │   ├── md.py
+│   │   ├── sd.py
+│   │   ├── cd.py
+│   │   ├── mtf.py
+│   │   ├── rrt.py
+│   │   ├── ia.py
+│   │   ├── o5.py
+│   │   ├── isd.py
+│   │   └── sid.py
+│   │
+│   └── scps/
+│       ├── scp_base.py
+│       ├── scp_173.py
+│       ├── scp_049.py
+│       └── scp_096.py
+│
+├── ai/
+│   ├── behavior_tree.py
+│   ├── state_machine.py
+│   └── pathfinding.py
+│
+├── systems/
+│   ├── collision_system.py
+│   ├── movement_system.py
+│   ├── interaction_system.py
+│   └── vision_system.py
+│
+├── ui/
+│   ├── ui_manager.py
+│   ├── button.py
+│   ├── panel.py
+│   └── hud.py
+│
+├── utils/
+│   ├── vector.py
+│   ├── math_utils.py
+│   ├── file_utils.py
+│   └── logger.py
+│
+├── assets/
+│   ├── sprites/
+│   │   ├── tiles/
+│   │   ├── npcs/
+│   │   ├── scps/
+│   │   └── ui/
+│   │
+│   ├── maps/
+│   │   ├── test_map.json
+│   │   └── facility_map.json
+│   │
+│   ├── sounds/
+│   └── fonts/
+│
+└── tests/
+    ├── test_map.py
+    ├── test_entities.py
+    └── test_pathfinding.py
