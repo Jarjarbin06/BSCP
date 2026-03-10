@@ -9,26 +9,29 @@
 
 
 from typing import Optional
-from bscp.Utils.vector import Vector
+
 from bscp.Entities.Components.ai import AIComponent
 from bscp.Entities.Components.faction import FactionComponent
 from bscp.Entities.Components.health import HealthComponent
 from bscp.Entities.Components.movement import MovementComponent
 from bscp.Entities.entity import Entity
+from bscp.Utils.vector import Vector
 
 
 class NPC(Entity):
 
     def __init__(
-        self,
-        name: str = "NPC",
-        position: Optional[Vector] = None,
-        faction_id: str = "neutral"
+            self,
+            name: str = "NPC",
+            position: Optional[Vector] = None,
+            max_health: int = 100,
+            max_speed: float = 10.0,
+            faction_id: str = "neutral"
     ) -> None:
         super().__init__(name=name, position=position)
         self.add_component(AIComponent())
-        self.add_component(MovementComponent(max_speed=10.0))
-        self.add_component(HealthComponent(100))
+        self.add_component(MovementComponent(max_speed=max_speed))
+        self.add_component(HealthComponent(max_health))
         self.add_component(FactionComponent(faction=faction_id))
 
     @property

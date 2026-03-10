@@ -7,8 +7,11 @@
 ###                                     ###
 ###########################################
 
+
+import bscp.Entities.SCPs.scps as SCPs
 from bscp.Entities.SCPs.scp import SCP
 
 __all__ = [
-    'SCPBase'
+    'SCPs',
+    'SCP'
 ]

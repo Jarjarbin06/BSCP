@@ -11,11 +11,12 @@
 from typing import Optional
 
 from bscp.Entities.Components.ai import AIComponent
-from bscp.Entities.Components.component import Component
 from bscp.Entities.Components.containement import ContainmentComponent
 from bscp.Entities.Components.health import HealthComponent
 from bscp.Entities.Components.movement import MovementComponent
 from bscp.Entities.entity import Entity
+from bscp.Map import Map
+from bscp.Map.tilemap import TileMap
 from bscp.Utils.vector import Vector
 
 
@@ -64,16 +65,7 @@ class SCP(Entity):
         health_comp = self.health
         return health_comp is None or health_comp.health > 0
 
-    def move_towards(self, target_pos: Vector, dt: float) -> None:
-        if not self.movement or not self.ai:
-            return
-        path_comp = self.movement
-        if path_comp.path is None or (path_comp.path and path_comp.path[-1] != target_pos):
-            path_comp.path = self.ai.find_path(self.position, target_pos)
-            path_comp.path_index = 0
-        self._follow_path(dt)
-
-    def _follow_path(self, dt: float) -> None:
+    def _follow_path(self, dt: float, tilemap: TileMap) -> None:
         path_comp = self.movement
         if not path_comp or not path_comp.path:
             self.velocity = Vector(0, 0)
@@ -84,6 +76,13 @@ class SCP(Entity):
         waypoint = path_comp.path[path_comp.path_index]
         direction = (waypoint - self.position).normalize()
         path_comp.set_velocity(direction)
-        self.position += self.velocity * dt
+        new_position = self.position + self.velocity * dt
+        next_tile_x, next_tile_y = int(new_position.x), int(new_position.y)
+        if 0 <= next_tile_y < tilemap.height and 0 <= next_tile_x < tilemap.width:
+            next_tile = tilemap.tiles[next_tile_y][next_tile_x]
+            if next_tile.occupants:
+                self.velocity = Vector(0, 0)
+                return
+        Map.move_entity(self, new_position, tilemap)
         if self.position.distance_to(waypoint) < 0.5:
             path_comp.path_index += 1

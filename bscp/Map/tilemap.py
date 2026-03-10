@@ -43,15 +43,16 @@ class TileMap:
     def place_entity(self, entity: object, x: int, y: int) -> bool:
         tile = self.get_tile(x, y)
         if tile and tile.walkable and not tile.is_occupied():
-            tile.set_entity(entity)
+            if entity not in tile.occupants:
+                tile.occupants.append(entity)
             entity.position = Vector(x, y)
             return True
         return False
 
-    def remove_entity(self, x: int, y: int) -> bool:
+    def remove_entity(self, entity: object, x: int, y: int) -> bool:
         tile = self.get_tile(x, y)
-        if tile:
-            tile.set_entity(None)
+        if tile and entity in tile.occupants:
+            tile.occupants.remove(entity)
             return True
         return False
 

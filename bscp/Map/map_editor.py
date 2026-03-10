@@ -12,11 +12,9 @@ import pygame
 
 from bscp.Map.map import Map
 from bscp.Map.tilemap import TileMap
-from bscp.Map.tile import Tile
 
 
 class MapEditor:
-
     DEFAULT_TILE_TYPES = ["floor", "wall", "containment", "spawn"]
 
     TILE_COLORS = {

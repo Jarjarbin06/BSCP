@@ -19,8 +19,22 @@ FACTIONS = [
     "SCD",  # Scientific Department
     "SD",  # Security Department
     "SID",  # Site Director
-    "MD",  # Medical Department
+    "MD"  # Medical Department
 ]
+
+FACTIONS_LOGO = {
+    "CI": "bscp/assets/sprites/npcs/CI.png",
+    "CD": "bscp/assets/sprites/npcs/CD.png",
+    "IA": "bscp/assets/sprites/npcs/IA.png",
+    "ISD": "bscp/assets/sprites/npcs/ISD.png",
+    "MTF": "bscp/assets/sprites/npcs/MTF.png",
+    "O5": "bscp/assets/sprites/npcs/O5.png",
+    "RRT": "bscp/assets/sprites/npcs/RRT.png",
+    "SCD": "bscp/assets/sprites/npcs/SCD.png",
+    "SD": "bscp/assets/sprites/npcs/SD.png",
+    "SID": "bscp/assets/sprites/npcs/SID.png",
+    "MD": "bscp/assets/sprites/npcs/MD.png"
+}
 
 FACTION_TYPES = {
     "CI": "e",
@@ -33,7 +47,7 @@ FACTION_TYPES = {
     "SCD": "ns",
     "SD": "a",
     "SID": "a",
-    "MD": "ns",
+    "MD": "ns"
 }
 
 ALLIANCES_TYPES = {
@@ -54,7 +68,7 @@ ALLIANCES = {
     "SCD": ["CD", "IA", "ISD", "MTF", "O5", "RRT", "SD", "SID", "MD"],
     "SD": ["IA", "ISD", "MTF", "O5", "RRT", "SCD", "SID", "MD"],
     "SID": ["IA", "ISD", "MTF", "O5", "RRT", "SD", "SCD", "MD"],
-    "MD": ["CD", "SCD", "IA", "ISD", "MTF", "O5", "RRT", "SD", "SID"],
+    "MD": ["CD", "SCD", "IA", "ISD", "MTF", "O5", "RRT", "SD", "SID"]
 }
 
 ENEMIES = {
@@ -68,7 +82,7 @@ ENEMIES = {
     "SCD": ["CI"],
     "SD": ["CI"],
     "SID": ["CI"],
-    "MD": ["CI"],
+    "MD": ["CI"]
 }
 
 FACTION_INFO = {
@@ -126,5 +140,5 @@ FACTION_INFO = {
         "full_name": "Medical Department",
         "type": "ns",
         "description": "Medical personnel for treatment and recovery.",
-    },
+    }
 }
