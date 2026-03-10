@@ -7,22 +7,16 @@
 ###                                     ###
 ###########################################
 
-import bscp.AI as AI
-import bscp.Core as Core
-import bscp.Engine as Engine
-import bscp.Entities as Entities
-import bscp.Map as Map
-import bscp.Systems as Systems
-import bscp.UI as UI
-import bscp.Utils as Utils
+import bscp.Engine.animation as Animation
+import bscp.Engine.camera as Camera
+import bscp.Engine.renderer as Renderer
+import bscp.Engine.depth_sorter as DepthSorter
+from bscp.Engine.sprite import Sprite
 
 __all__ = [
-    'AI',
-    'Core',
-    'Engine',
-    'Entities',
-    'Map',
-    'Systems',
-    'UI',
-    'Utils'
+    'Animation',
+    'Camera',
+    'Renderer',
+    'DepthSorter',
+    'Sprite'
 ]

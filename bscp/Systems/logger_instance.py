@@ -7,22 +7,9 @@
 ###                                     ###
 ###########################################
 
-import bscp.AI as AI
-import bscp.Core as Core
-import bscp.Engine as Engine
-import bscp.Entities as Entities
-import bscp.Map as Map
-import bscp.Systems as Systems
-import bscp.UI as UI
-import bscp.Utils as Utils
+from jarbin_toolkit_action import Action
+from bscp.Utils.logger import BSCPLog
 
-__all__ = [
-    'AI',
-    'Core',
-    'Engine',
-    'Entities',
-    'Map',
-    'Systems',
-    'UI',
-    'Utils'
-]
+log_path = str(__file__).removesuffix("bscp/Systems/logger_instance.py") + "log/"
+
+open_log = Action("open log", BSCPLog, log_path, file_name="bscp", json=False)

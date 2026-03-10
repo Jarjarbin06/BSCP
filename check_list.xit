@@ -5,7 +5,7 @@
 [x] Clock system
 [@] Event manager
 [x] Events
-[ ] Game loop
+[@] Game loop
 [@] Window management
 
 ## ENGINE
@@ -62,7 +62,7 @@
 
 #### NPC
 
-[@] Base NPC logic
+[x] Base NPC logic
 [ ] Class-D behavior
 [ ] Intelligence Agency behavior
 [ ] Internal Security Department behavior
@@ -76,7 +76,7 @@
 
 #### SCPs
 
-[ ] SCP base class
+[x] SCP base class
 [ ] SCP behavior system
 [ ] SCP containment logic
 

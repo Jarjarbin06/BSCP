@@ -12,47 +12,83 @@ import jarbin_toolkit as JTK
 
 
 if __name__ == "__main__":
-
     import bscp as BSCP
+    import pygame
 
-    dt = 0.016  # simulate ~60 FPS
-    target = BSCP.Utils.Vector(5, 10)
+    BSCP.Systems.open_log().delete()
+    log: BSCP.Utils.BSCPLog = BSCP.Systems.open_log()
 
-    # Create a mobile SCP with health
-    scp = BSCP.Entities.SCPs.SCP(
-        name="SCP-001",
-        position=BSCP.Utils.Vector(10, 5),
-        anomaly_id="SCP-001",
-        max_health=100,
-        max_speed=5.0,
-        mobile=True
-    )
+    # Initialize game
+    game = BSCP.Core.Game()
 
-    print(f"Initial position: {scp.position}")
-    print(f"Is alive? {scp.is_alive()}")
-    print(f"Health: {scp.health.health if scp.health else 'N/A'}")
-    print(f"Containment active? {scp.containment.active if scp.containment else 'N/A'}")
+    # Add NPCs
+    game.add_npc(BSCP.Entities.Factions.NPC("ClassD Worker", BSCP.Utils.Vector(10, 5), faction_id="CD"))
+    game.add_npc(BSCP.Entities.Factions.NPC("Researcher", BSCP.Utils.Vector(12, 8), faction_id="SCD"))
 
-    # Test movement towards a target
-    scp.move_towards(target, dt)
-    scp.update(dt)
-    print(f"Position after move_towards: {scp.position}")
+    # Add SCPs
+    game.add_scp(BSCP.Entities.SCPs.SCP("SCP-173", BSCP.Utils.Vector(5, 5), mobile=True))
+    game.add_scp(BSCP.Entities.SCPs.SCP("SCP-049", BSCP.Utils.Vector(15, 10), mobile=True))
 
-    # Test damage and is_alive
-    if scp.health:
-        scp.health.damage(50)
-    print(f"Health after 50 damage: {scp.health.health if scp.health else 'N/A'}")
-    print(f"Is alive? {scp.is_alive()}")
+    # Create window
+    window = BSCP.Core.Window(width=1280, height=720, title="BSCP : Foundation Architect")
 
-    # Apply more damage to kill
-    if scp.health:
-        scp.health.damage(60)
-    scp.update(dt)
-    print(f"Health after 60 more damage: {scp.health.health if scp.health else 'N/A'}")
-    print(f"Is alive? {scp.is_alive()}")
+    # --------------------------
+    # Main game loop
+    # --------------------------
+    running = True
+    steps = 0
+    max_steps = 0  # 0 = unlimited
+    while running and window.running:
+        # Tick clock
+        game.clock.tick()
+        game.dt = game.clock.delta_time
 
-    # Test path reset by moving to a new target
-    new_target = BSCP.Utils.Vector(15, 15)
-    scp.move_towards(new_target, dt)
-    scp.update(dt)
-    print(f"Position after new target move: {scp.position}")
+        # Poll window events
+        for event in window.poll_events():
+            pass  # add input handling if needed
+
+        # Update game logic
+        game.update_entities()
+
+        # Clear window
+        window.clear((30, 30, 30))
+
+        # Draw entities (simple placeholder)
+        for npc in game.npcs:
+            pygame.draw.circle(
+                window.surface,
+                (0, 255, 0),
+                (int(npc.position.x * 50), int(npc.position.y * 50)),
+                10
+            )
+        for scp in game.scps:
+            pygame.draw.circle(
+                window.surface,
+                (255, 0, 0),
+                (int(scp.position.x * 50), int(scp.position.y * 50)),
+                12
+            )
+
+        # Display frame
+        window.display()
+
+        # Optional debug logging
+        for npc in game.npcs:
+            game.log.debug("NPC Update", f"{npc.name} at {npc.position}")
+        for scp in game.scps:
+            game.log.debug("SCP Update", f"{scp.name} at {scp.position}")
+
+        steps += 1
+        if max_steps != 0 and steps >= max_steps:
+            running = False
+
+        # Cap frame rate (~60 FPS)
+        game.clock.sleep(0.016)
+
+    # --------------------------
+    # After loop
+    # --------------------------
+    print("[INFO] Simulation finished")
+    game.save_game()
+    window.destroy()
+    log.close()
