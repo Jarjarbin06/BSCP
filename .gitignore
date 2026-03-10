@@ -1,2 +1,3 @@
 .idea
 *.jar-log
+*_save_*.json

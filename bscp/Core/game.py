@@ -66,7 +66,7 @@ class Game:
         for scp in self.scps:
             scp.update(self.dt)
 
-    def save_game(self, file_name: str = "game_save"):
+    def save_game(self, file_name: str = "unnamed"):
 
         def serialize_value(value):
             if isinstance(value, Vector):
@@ -98,9 +98,9 @@ class Game:
             "npcs": [serialize_entity(n) for n in self.npcs],
             "scps": [serialize_entity(s) for s in self.scps]
         }
-        FileUtils.save_json(state, self.save_path, file_name)
+        FileUtils.save_json(state, self.save_path, "game_save_" + file_name)
 
-    def load_game(self, file_name: str = "game_save"):
+    def load_game(self, file_name: str = "unnamed"):
 
         def deserialize_value(value):
             if isinstance(value, dict):
@@ -135,7 +135,7 @@ class Game:
             return entity
 
         try:
-            state = FileUtils.load_json(self.save_path, file_name)
+            state = FileUtils.load_json(self.save_path, "game_save_" + file_name)
             self.npcs.clear()
             self.scps.clear()
             for n_data in state.get("npcs", []):

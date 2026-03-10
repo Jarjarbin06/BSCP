@@ -30,7 +30,6 @@ setup_venv() {
 
 # Run the game
 launch_game() {
-    echo "[INFO] Launching BSCP..."
     "$PYTHON_BIN" "$PROJECT_ROOT/bscp.py" "$@"
 }
 
