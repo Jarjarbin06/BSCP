@@ -8,9 +8,9 @@
 ###########################################
 
 
-from entities.components.component import Component
-from utils.vector import Vector
-from engine.sprite import Sprite
+from bscp.entities.components.component import Component
+from bscp.utils.vector import Vector
+from bscp.engine.sprite import Sprite
 
 
 class SpriteComponent(Component):

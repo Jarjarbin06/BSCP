@@ -6,3 +6,7 @@
 ###   Build. Secure. Contain. Protect   ###
 ###                                     ###
 ###########################################
+
+
+class MD:
+    pass

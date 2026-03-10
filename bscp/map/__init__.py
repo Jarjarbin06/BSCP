@@ -7,11 +7,11 @@
 ###                                     ###
 ###########################################
 
-import map.map as Map
-import map.map_editor as MapEditor
-import map.map_loader as MapLoader
-import map.tile as Tile
-import map.tilemap as TileMap
+import bscp.map.map as Map
+import bscp.map.map_editor as MapEditor
+import bscp.map.map_loader as MapLoader
+import bscp.map.tile as Tile
+import bscp.map.tilemap as TileMap
 
 __all__ = [
     'Map',

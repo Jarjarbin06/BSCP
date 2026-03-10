@@ -10,7 +10,7 @@
 
 from math import atan2, degrees
 
-from utils.vector import Vector
+from bscp.utils.vector import Vector
 
 
 def distance(p1: Vector, p2: Vector) -> float:

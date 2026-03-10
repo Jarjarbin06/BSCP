@@ -8,15 +8,13 @@
 ###########################################
 
 
-from entities.components.component import Component
+from bscp.entities.components.component import Component
 
 
 class ContainmentComponent(Component):
 
-    def __init__(self, containment_level: int) -> None:
+    def __init__(self) -> None:
         super().__init__()
-        if not isinstance(containment_level, int): raise TypeError()
-        self.containment_level: int = containment_level
         self.breached: bool = False
 
     def breach(self) -> None:

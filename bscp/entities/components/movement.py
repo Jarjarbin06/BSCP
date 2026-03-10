@@ -8,8 +8,10 @@
 ###########################################
 
 
-from entities.components.component import Component
-from utils.vector import Vector
+from typing import Optional, List
+
+from bscp.entities.components.component import Component
+from bscp.utils.vector import Vector
 
 
 class MovementComponent(Component):
@@ -18,6 +20,8 @@ class MovementComponent(Component):
         super().__init__()
         if not isinstance(max_speed, float): raise TypeError()
         self.max_speed: float = max_speed
+        self.path: Optional[List[Vector]] = None
+        self.path_index: int = 0
 
     def update(self, dt: float) -> None:
         super().update(dt)
@@ -25,3 +29,7 @@ class MovementComponent(Component):
         entity = self.require_entity()
         if entity.velocity.length() > self.max_speed:
             entity.velocity = entity.velocity.normalize() * self.max_speed
+
+    def set_velocity(self, direction: "Vector") -> None:
+        entity = self.require_entity()
+        entity.velocity = direction.normalize() * self.max_speed

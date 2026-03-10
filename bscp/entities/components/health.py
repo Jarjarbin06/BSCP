@@ -8,15 +8,14 @@
 ###########################################
 
 
-from entities.components.component import Component
+from bscp.entities.components.component import Component
 
 
 class HealthComponent(Component):
 
     def __init__(self, max_health: int) -> None:
         super().__init__()
-        if not isinstance(max_health, int):
-            raise TypeError()
+        if not isinstance(max_health, int): raise TypeError()
         self.max_health: int = max_health
         self.health: int = max_health
 

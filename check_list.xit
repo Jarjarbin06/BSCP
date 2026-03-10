@@ -2,10 +2,11 @@
 
 ## CORE
 
-[ ] Clock system
-[ ] Event manager
+[x] Clock system
+[@] Event manager
+[x] Events
 [ ] Game loop
-[ ] Window management
+[@] Window management
 
 ## ENGINE
 
@@ -61,7 +62,7 @@
 
 #### NPC
 
-[ ] Base NPC logic
+[@] Base NPC logic
 [ ] Class-D behavior
 [ ] Intelligence Agency behavior
 [ ] Internal Security Department behavior
@@ -162,7 +163,7 @@
 
 ## UTILS
 
-[ ] File manager
+[x] File manager
 [x] Log manager
 [@] Math utils
 [x] Vector utils

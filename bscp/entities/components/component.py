@@ -13,7 +13,7 @@ from __future__ import annotations
 from typing import Optional, TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from entities.entity import Entity
+    from bscp.entities.entity import Entity
 
 
 class Component:

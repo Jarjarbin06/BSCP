@@ -8,32 +8,32 @@
 ###########################################
 
 
-import entities.components.alarm as AlarmComponent
-import entities.components.collision as CollisionComponent
-import entities.components.component as Component
-import entities.components.containement as ContainementComponent
-import entities.components.door_access as DoorAccessComponent
-import entities.components.faction as FactionComponent
-import entities.components.health as HealthComponent
-import entities.components.ia as IAComponent
-import entities.components.interaction as InteractionComponent
-import entities.components.inventory as InventoryComponent
-import entities.components.movement as MovementComponent
-import entities.components.patrol as PatrolComponent
-import entities.components.sprite as SpriteComponent
-import entities.components.stamina as StaminaComponent
-import entities.components.target as TargetComponent
-import entities.components.vision as VisionComponent
+from bscp.entities.components.ai import AIComponent
+from bscp.entities.components.alarm import AlarmComponent
+from bscp.entities.components.collision import CollisionComponent
+from bscp.entities.components.component import Component
+from bscp.entities.components.containement import ContainmentComponent
+from bscp.entities.components.door_access import DoorAccessComponent
+from bscp.entities.components.faction import FactionComponent
+from bscp.entities.components.health import HealthComponent
+from bscp.entities.components.interaction import InteractionComponent
+from bscp.entities.components.inventory import InventoryComponent
+from bscp.entities.components.movement import MovementComponent
+from bscp.entities.components.patrol import PatrolComponent
+from bscp.entities.components.sprite import SpriteComponent
+from bscp.entities.components.stamina import StaminaComponent
+from bscp.entities.components.target import TargetComponent
+from bscp.entities.components.vision import VisionComponent
 
 __all__ = [
+    'AIComponent',
     'AlarmComponent',
     'CollisionComponent',
     'Component',
-    'ContainementComponent',
+    'ContainmentComponent',
     'DoorAccessComponent',
     'FactionComponent',
     'HealthComponent',
-    'IAComponent',
     'InteractionComponent',
     'InventoryComponent',
     'MovementComponent',

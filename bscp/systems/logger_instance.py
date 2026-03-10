@@ -8,7 +8,7 @@
 ###########################################
 
 from jarbin_toolkit_action import Action
-from utils.logger import BSCPLog
+from bscp.utils.logger import BSCPLog
 
 log_path = str(__file__).removesuffix("bscp/systems/logger_instance.py") + "log/"
 

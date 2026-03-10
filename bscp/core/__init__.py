@@ -7,14 +7,16 @@
 ###                                     ###
 ###########################################
 
-import core.clock as Clock
-import core.event_manager as EventManager
-import core.game as Game
-import core.window as Window
+from bscp.core.clock import Clock
+from bscp.core.event_manager import EventManager
+import bscp.core.events as Events
+import bscp.core.game as Game
+from bscp.core.window import Window
 
 __all__ = [
     'Clock',
     'EventManager',
+    'Events',
     'Game',
     'Window'
 ]

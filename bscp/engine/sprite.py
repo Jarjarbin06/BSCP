@@ -10,7 +10,7 @@
 
 from typing import Optional
 
-from utils.vector import Vector
+from bscp.utils.vector import Vector
 
 
 class Sprite:

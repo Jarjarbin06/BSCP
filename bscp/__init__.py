@@ -7,18 +7,22 @@
 ###                                     ###
 ###########################################
 
+import bscp.ai as AI
+import bscp.core as Core
+import bscp.engine as Engine
+import bscp.entities as Entities
+import bscp.map as Map
+import bscp.systems as Systems
+import bscp.ui as UI
+import bscp.utils as Utils
 
-import jarbin_toolkit as JTK
-
-import ai as AI
-import core as CORE
-import engine as ENGINE
-import entities as ENTITIES
-import map as MAP
-import systems as SYSTEMS
-import ui as UI
-import utils as UTILS
-
-
-if __name__ == "__main__":
-    pass
+__all__ = [
+    'AI',
+    'Core',
+    'Engine',
+    'Entities',
+    'Map',
+    'Systems',
+    'UI',
+    'Utils'
+]

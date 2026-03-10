@@ -7,18 +7,16 @@
 ###                                     ###
 ###########################################
 
-import entities.factions as Factions
-import entities.scps as SCPs
-import entities.components as Components
-import entities.entity as Entity
-import entities.npc as NPC
-import entities.player as Player
+import bscp.entities.factions as Factions
+import bscp.entities.scps as SCPs
+import bscp.entities.components as Components
+from bscp.entities.entity import Entity
+from bscp.entities.player import Player
 
 __all__ = [
     'Factions',
     'SCPs',
     'Components',
     'Entity',
-    'NPC',
     'Player'
 ]

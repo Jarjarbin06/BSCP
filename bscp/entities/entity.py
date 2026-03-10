@@ -11,8 +11,8 @@
 from typing import Optional, Type, TypeVar
 from uuid import uuid4
 
-from utils.vector import Vector
-from entities.components.component import Component
+from bscp.utils.vector import Vector
+from bscp.entities.components.component import Component
 
 T = TypeVar("T", bound=Component)
 

@@ -8,9 +8,9 @@
 ###########################################
 
 
-from entities.components.component import Component
+from bscp.entities.components.component import Component
 
-from utils.vector import Vector
+from bscp.utils.vector import Vector
 
 
 class PatrolComponent(Component):

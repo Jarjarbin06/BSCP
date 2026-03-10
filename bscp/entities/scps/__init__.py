@@ -7,7 +7,7 @@
 ###                                     ###
 ###########################################
 
-import entities.scps.scp_base as SCPBase
+from bscp.entities.scps.scp import SCP
 
 __all__ = [
     'SCPBase'

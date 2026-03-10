@@ -8,7 +8,7 @@
 ###########################################
 
 
-from entities.components.component import Component
+from bscp.entities.components.component import Component
 
 
 class CollisionComponent(Component):

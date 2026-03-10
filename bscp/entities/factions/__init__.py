@@ -8,28 +8,32 @@
 ###########################################
 
 
-import entities.factions.cd as CD
-import entities.factions.ia as IA
-import entities.factions.isd as ISD
-import entities.factions.md as MD
-import entities.factions.mtf as MTF
-import entities.factions.o5 as O5
-import entities.factions.faction_base as BASE
-import entities.factions.rrt as RRT
-import entities.factions.scd as SCD
-import entities.factions.sd as SD
-import entities.factions.sid as SID
+from bscp.entities.factions.cd import CD
+from bscp.entities.factions.ci import CI
+from bscp.entities.factions.ia import IA
+from bscp.entities.factions.isd import ISD
+from bscp.entities.factions.md import MD
+from bscp.entities.factions.mtf import MTF
+from bscp.entities.factions.npc import NPC
+from bscp.entities.factions.o5 import O5
+from bscp.entities.factions.rrt import RRT
+from bscp.entities.factions.scd import SCD
+from bscp.entities.factions.sd import SD
+from bscp.entities.factions.sid import SID
+import bscp.entities.factions.factions as Factions
 
 __all__ = [
     'CD',
+    'CI',
     'IA',
     'ISD',
     'MD',
     'MTF',
+    'NPC',
     'O5',
-    'BASE',
     'RRT',
     'SCD',
     'SD',
-    'SID'
+    'SID',
+    'Factions'
 ]
