@@ -8,5 +8,14 @@
 ###########################################
 
 
+import uuid
+from typing import Optional, List
+
+
 class Entity:
-    pass
+
+    def __init__(self) -> None:
+        self.id = uuid.uuid4()
+        self.sprite: Optional["Sprite"]
+        self.faction_name: Optional[str]
+        self.enemy: Optional[List[str]]

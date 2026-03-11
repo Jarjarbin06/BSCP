@@ -23,8 +23,7 @@ class Window:
         if not isinstance(width, int): raise TypeError()
         if not isinstance(height, int): raise TypeError()
         if not isinstance(title, str): raise TypeError()
-        pygame.init()
-        flags = pygame.RESIZABLE
+        flags = pygame.FULLSCREEN | pygame.WINDOWCLOSE
         self._width: int = width
         self._height: int = height
         self._title: str = title
@@ -73,12 +72,3 @@ class Window:
 
     def close(self) -> None:
         self._running = False
-
-    def destroy(self) -> None:
-        pygame.quit()
-
-    def __repr__(self) -> str:
-        return (
-            f"<Window {self._width}x{self._height} "
-            f"running={self._running}>"
-        )

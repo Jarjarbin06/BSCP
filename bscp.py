@@ -8,5 +8,14 @@
 ###########################################
 
 
+import bscp as BSCP
+
+
 if __name__ == "__main__":
-    pass
+    bscp = BSCP.Core.Game()
+
+    while bscp.window.running:
+        BSCP
+        pass
+
+    bscp.destroy()

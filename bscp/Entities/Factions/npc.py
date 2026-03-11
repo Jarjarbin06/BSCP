@@ -7,7 +7,8 @@
 ###                                     ###
 ###########################################
 
-from bscp.Entities import Entity
+
+from bscp.Entities.entity import Entity
 
 
 class NPC(Entity):

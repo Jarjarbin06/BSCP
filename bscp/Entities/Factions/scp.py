@@ -8,10 +8,8 @@
 ###########################################
 
 
-import bscp.Entities.SCPs.scps as SCPs
-from bscp.Entities.SCPs.scp import SCP
+from bscp.Entities.entity import Entity
 
-__all__ = [
-    'SCPs',
-    'SCP'
-]
+
+class SCP(Entity):
+    pass
