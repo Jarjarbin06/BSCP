@@ -7,14 +7,12 @@
 ###                                     ###
 ###########################################
 
-import bscp.UI.button as Button
-import bscp.UI.hud as HUD
-import bscp.UI.panel as Panel
-import bscp.UI.ui_manager as UIManager
+from bscp.UI.button import Button
+from bscp.UI.hud import HUD
+import bscp.UI.panels as Panels
 
 __all__ = [
     'Button',
     'HUD',
-    'Panel',
-    'UIManager'
+    'Panels'
 ]

@@ -17,17 +17,16 @@ class Game:
 
     def __init__(
             self,
-            width: int = 1280,
-            height: int = 720,
+            size: tuple[int, int],
             title: str = "BSCP : Foundation Architect",
             vsync: bool = True
     ):
         pygame.init()
-        self._window = Window(width, height, title, vsync)
+        self._window = Window(size, title, vsync)
 
     @property
     def window(self) -> Window:
         return self._window
 
     def destroy(self) -> None:
-        pygame.quit()
+        self.window.destroy()

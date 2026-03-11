@@ -15,24 +15,16 @@ class Window:
 
     def __init__(
             self,
-            width: int = 1280,
-            height: int = 720,
+            size: tuple[int, int],
             title: str = "BSCP : Foundation Architect",
             vsync: bool = True
     ) -> None:
-        if not isinstance(width, int): raise TypeError()
-        if not isinstance(height, int): raise TypeError()
         if not isinstance(title, str): raise TypeError()
-        flags = pygame.FULLSCREEN | pygame.WINDOWCLOSE
-        self._width: int = width
-        self._height: int = height
+        flags = pygame.constants.FULLSCREEN | pygame.constants.DOUBLEBUF
         self._title: str = title
         self._vsync: bool = vsync
-        self._surface = pygame.display.set_mode(
-            (width, height),
-            flags,
-            vsync=1 if vsync else 0
-        )
+        self._surface = pygame.display.set_mode(size, flags, vsync=1 if vsync else 0)
+        self._size: tuple[int, int] = pygame.display.get_window_size()
         pygame.display.set_caption(title)
         self._running: bool = True
 
@@ -46,23 +38,14 @@ class Window:
 
     @property
     def width(self) -> int:
-        return self._width
+        return self._size[0]
 
     @property
     def height(self) -> int:
-        return self._height
+        return self._size[1]
 
     def poll_events(self):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.close()
-            if event.type == pygame.VIDEORESIZE:
-                self._width, self._height = event.size
-                self._surface = pygame.display.set_mode(
-                    (self._width, self._height),
-                    pygame.RESIZABLE
-                )
-            yield event
+        return pygame.event.get()
 
     def clear(self, color=(0, 0, 0)) -> None:
         self._surface.fill(color)
@@ -72,3 +55,11 @@ class Window:
 
     def close(self) -> None:
         self._running = False
+
+    def destroy(self) -> None:
+        pygame.quit()
+
+    def set_size(self, size: tuple[int, int]) -> None:
+        self._surface = pygame.display.set_mode(size, pygame.RESIZABLE)
+        self._size = pygame.display.get_window_size()
+        pygame.display.update()
