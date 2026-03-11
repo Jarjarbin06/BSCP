@@ -9,6 +9,8 @@
 
 
 FACTIONS = [
+    "FP",  # Foundation Personal instance
+    "SCP",  # SCP instance
     "CI",  # Chaos Insurgency
     "CD",  # Class-D
     "IA",  # Internal Administration
@@ -23,6 +25,8 @@ FACTIONS = [
 ]
 
 FACTIONS_LOGO = {
+    "FP": "bscp/assets/sprites/npcs/FP.png",
+    "SCP": "bscp/assets/sprites/scps/SCP.png",
     "CI": "bscp/assets/sprites/npcs/CI.png",
     "CD": "bscp/assets/sprites/npcs/CD.png",
     "IA": "bscp/assets/sprites/npcs/IA.png",
@@ -37,6 +41,8 @@ FACTIONS_LOGO = {
 }
 
 FACTION_TYPES = {
+    "FP": "e",
+    "SCP": "e",
     "CI": "e",
     "CD": "n",
     "IA": "a",
@@ -58,22 +64,24 @@ ALLIANCES_TYPES = {
 }
 
 ALLIANCES = {
-    "CI": ["CD"],
+    "SCP": [],
+    "CI": ["CD", "SCP"],
     "CD": ["SCD", "MD", "CI"],
-    "IA": ["ISD", "MTF", "O5", "RRT", "SD", "SID", "SCD", "MD"],
-    "ISD": ["IA", "MTF", "O5", "RRT", "SD", "SID", "SCD", "MD"],
-    "MTF": ["IA", "ISD", "O5", "RRT", "SD", "SID", "SCD", "MD"],
-    "O5": ["IA", "ISD", "MTF", "RRT", "SD", "SID", "SCD", "MD"],
-    "RRT": ["IA", "ISD", "MTF", "O5", "SD", "SID", "SCD", "MD"],
-    "SCD": ["CD", "IA", "ISD", "MTF", "O5", "RRT", "SD", "SID", "MD"],
-    "SD": ["IA", "ISD", "MTF", "O5", "RRT", "SCD", "SID", "MD"],
-    "SID": ["IA", "ISD", "MTF", "O5", "RRT", "SD", "SCD", "MD"],
-    "MD": ["CD", "SCD", "IA", "ISD", "MTF", "O5", "RRT", "SD", "SID"]
+    "IA": ["ISD", "MTF", "O5", "RRT", "SD", "SID", "SCD", "MD", "FP"],
+    "ISD": ["IA", "MTF", "O5", "RRT", "SD", "SID", "SCD", "MD", "FP"],
+    "MTF": ["IA", "ISD", "O5", "RRT", "SD", "SID", "SCD", "MD", "FP"],
+    "O5": ["IA", "ISD", "MTF", "RRT", "SD", "SID", "SCD", "MD", "FP"],
+    "RRT": ["IA", "ISD", "MTF", "O5", "SD", "SID", "SCD", "MD", "FP"],
+    "SCD": ["CD", "IA", "ISD", "MTF", "O5", "RRT", "SD", "SID", "MD", "FP"],
+    "SD": ["IA", "ISD", "MTF", "O5", "RRT", "SCD", "SID", "MD", "FP"],
+    "SID": ["IA", "ISD", "MTF", "O5", "RRT", "SD", "SCD", "MD", "FP"],
+    "MD": ["CD", "SCD", "IA", "ISD", "MTF", "O5", "RRT", "SD", "SID", "FP"]
 }
 
 ENEMIES = {
-    "CI": ["IA", "ISD", "MTF", "O5", "RRT", "SD", "SID", "SCD", "MD"],
-    "CD": ["IA", "ISD", "MTF", "O5", "RRT", "SD", "SID", "SCD", "MD"],
+    "SCP": ["CI", "CD", "IA", "ISD", "MTF", "O5", "RRT", "SCD", "SD", "SID", "MD", "FP"],
+    "CI": ["IA", "ISD", "MTF", "O5", "RRT", "SD", "SID", "SCD", "MD", "FP"],
+    "CD": ["IA", "ISD", "MTF", "O5", "RRT", "SD", "SID", "SCD", "MD"", FP"],
     "IA": ["CI"],
     "ISD": ["CI"],
     "MTF": ["CI"],
@@ -86,6 +94,16 @@ ENEMIES = {
 }
 
 FACTION_INFO = {
+    "FPB": {
+        "full_name": "Foundation Personal Base",
+        "type": "e",
+        "description": "FP",
+    },
+    "SCP": {
+        "full_name": "SCP",
+        "type": "e",
+        "description": "SCP",
+    },
     "CI": {
         "full_name": "Chaos Insurgency",
         "type": "e",
