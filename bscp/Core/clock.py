@@ -10,6 +10,8 @@
 
 import time
 
+from bscp.Systems import open_log
+
 
 class Clock:
 
@@ -20,6 +22,11 @@ class Clock:
         self._frame_count: int = 0
         self._fps: float = 0.0
         self._fps_timer: float = self._last_time
+        open_log().log(
+            "VALID",
+            "Clock",
+            f"created: {repr(self)}"
+        )
 
     @property
     def delta_time(self) -> float:
@@ -31,7 +38,18 @@ class Clock:
 
     @time_scale.setter
     def time_scale(self, scale: float) -> None:
-        if scale <= 0: raise ValueError("Time scale must be positive")
+        if not isinstance(scale, float):
+            open_log().log(
+                "WARN",
+                "Clock",
+                f"time_scale: scale must be a float (currently {repr(type(scale))})"
+            )
+        if scale <= 0:
+            open_log().log(
+                "WARN",
+                "Clock",
+                f"time_scale: scale must greater than 0 (currently {repr(scale)})"
+            )
         self._time_scale = scale
 
     @property
@@ -49,8 +67,18 @@ class Clock:
             self._fps_timer = current_time
 
     def sleep(self, duration: float) -> None:
+        if not isinstance(duration, float):
+            open_log().log(
+                "WARN",
+                "Clock",
+                f"sleep: duration must be a float (currently {repr(type(duration))})"
+            )
         if duration < 0:
-            raise ValueError("Sleep duration must be non-negative")
+            open_log().log(
+                "WARN",
+                "Clock",
+                f"sleep: duration must be greater or equal to 0 (currently {repr(duration)})"
+            )
         time.sleep(duration / self._time_scale)
 
     def reset(self) -> None:

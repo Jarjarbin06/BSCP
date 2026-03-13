@@ -13,6 +13,7 @@ from typing import Optional, List
 from uuid import uuid4
 
 from bscp.Map.tilemap import TileMap
+from bscp.Systems.logger_instance import open_log
 from bscp.Systems.pathfinder import Pathfinder
 from bscp.Utils.vector import Vector
 
@@ -30,6 +31,7 @@ class NPC:
         self.target_loc: Optional[Vector] = None
         self.path: List[Vector] = []
         self.follow_entity: Optional["Entity"] = None
+        open_log().log("VALID", "NPC", f"created: {repr(self)}")
 
     def update(self, dt: float, map: TileMap) -> None:
         if self.follow_entity is None:
@@ -63,16 +65,15 @@ class NPC:
             self.path.pop(0)
         if not self.path:
             self.target_loc = None
+        if self.sprite is not None:
+            self.sprite.position = self.position
 
-    def draw(self, surface, tile_size: tuple[int, int] = (10, 10)) -> None:
+    def draw(self, surface, zoom: float, position: Vector) -> None:
         if self.sprite:
-            self.sprite.rect.topleft = (
-                int(self.position.x * tile_size[0]),
-                int(self.position.y * tile_size[1])
-            )
-            self.sprite.draw(surface)
+            self.sprite.draw(surface, zoom, position)
 
     def set_target_loc(self, target_loc: Vector) -> None:
+        open_log().log("INFO", "NPC", f"new target : {repr(target_loc)}")
         self.target_loc = target_loc
 
     def __repr__(self) -> str:

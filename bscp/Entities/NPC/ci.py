@@ -9,11 +9,12 @@
 
 
 from bscp.Core.sprite import Sprite
-from bscp.Entities.Factions.factions import FACTIONS_LOGO, ENEMIES
-from bscp.Entities.Factions.npc import NPC
+from bscp.Entities.NPC.factions import FACTIONS_LOGO, ENEMIES
+from bscp.Entities.NPC.npc import NPC
+from bscp.Systems.logger_instance import open_log
 
 
-class MTF(NPC):
+class CI(NPC):
 
     def __init__(self, x: float, y: float) -> None:
-        super().__init__(x, y, Sprite(FACTIONS_LOGO["MTF"]), ENEMIES["MTF"], "MTF", 1.2)
+        super().__init__(x, y, Sprite(FACTIONS_LOGO["CI"]), ENEMIES["CI"], "CI", 1.2)

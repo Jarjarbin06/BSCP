@@ -13,6 +13,7 @@ from typing import Optional
 import pygame
 
 from bscp.Systems.config_instance import open_config
+from bscp.Systems.logger_instance import open_log
 
 
 class Tile:
@@ -48,15 +49,18 @@ class Tile:
             self.entity = entity
 
     def set_spawn(self, spawn: "Entity"):
-        self.spawn = type(spawn)(self.x, self.y)
+        self.spawn = spawn
 
-    def spawn_new_entity(self) -> Optional["Entity"]:
+    def get_spawn(self):
         if self.entity is None and self.spawn is not None:
-            self.entity = type(self.spawn)(self.x, self.y)
-            return self.entity
+            return self.spawn
         return None
 
     def draw(self, surface, zoom: float, camera_pos: "Vector"):
+        tile_w, tile_h = self.tile_size[0] * zoom, self.tile_size[1] * zoom
+        screen_x = (self.x - camera_pos.x) * tile_w
+        screen_y = (self.y - camera_pos.y) * tile_h
+        pygame.draw.rect(surface, (0, 0, 0), pygame.Rect(screen_x, screen_y, tile_w, tile_h))
         color = self.color
         if self.selected:
             color = (
@@ -64,16 +68,8 @@ class Tile:
                 max(color[1] - 50, 0),
                 max(color[2] - 50, 0)
             )
-        if self.spawn is not None:
+        if self.spawn:
             color = (50, 150, 50)
-        tile_w, tile_h = self.tile_size[0] * zoom, self.tile_size[1] * zoom
-        screen_x = (self.x - camera_pos.x) * tile_w
-        screen_y = (self.y - camera_pos.y) * tile_h
-        pygame.draw.rect(
-            surface,
-            (0, 0, 0),
-            pygame.Rect(screen_x, screen_y, tile_w, tile_h)
-        )
         margin_w, margin_h = tile_w * 0.05, tile_h * 0.05
         pygame.draw.rect(
             surface,
@@ -84,4 +80,14 @@ class Tile:
                 tile_w - 2 * margin_w,
                 tile_h - 2 * margin_h
             )
+        )
+
+    def __repr__(self) -> str:
+        return (
+            f"<Tile "
+            f"pos=({self.x}, {self.y}) "
+            f"entity={'None' if self.entity is None else type(self.entity).__name__} "
+            f"spawn={'None' if self.spawn is None else type(self.spawn).__name__} "
+            f"wall={self.wall} "
+            f"selected={self.selected}>"
         )

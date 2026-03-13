@@ -25,7 +25,8 @@ class BSCPConfig:
         "WINDOW": {
             "width": "1920",
             "height": "1080",
-            "vsync": "True"
+            "vsync": "True",
+            "fps": "60"
         },
         "FACTIONS": {
             "FP": "10",
@@ -55,14 +56,12 @@ class BSCPConfig:
     ) -> None:
         if not isdir(path):
             makedirs(path)
-
-        self.path = path
-        self.file_name = file_name or "bscp_config.ini"
-
+        self.path = path if path.endswith("/") else path + "/"
+        self.file_name = file_name or "bscp_config"
         self._config = BaseConfig(
             path,
-            data=self.DEFAULT_CONFIG,
-            file_name=f"{self.file_name}.ini"
+            file_name=f"{self.file_name}.ini",
+            data=(None if BaseConfig.exist(self.path, file_name=self.file_name + ".ini") else self.DEFAULT_CONFIG),
         )
 
     def __repr__(self) -> str:
@@ -111,6 +110,10 @@ class BSCPConfig:
     @property
     def vsync(self) -> bool:
         return self.get_bool("WINDOW", "vsync")
+
+    @property
+    def fps(self) -> int:
+        return self.get_int("WINDOW", "fps")
 
     @property
     def log_enabled(self) -> bool:

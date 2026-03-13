@@ -8,10 +8,15 @@
 ###########################################
 
 
-from jarbin_toolkit_action import Action
-
 from bscp.Utils.config import BSCPConfig
 
-config_path = str(__file__).removesuffix("bscp/Systems/config_instance.py") + "config/"
+_config_instance: BSCPConfig | None = None
 
-open_config = Action("open config", BSCPConfig, config_path, file_name="bscp")
+
+def open_config() -> BSCPConfig:
+    global _config_instance
+    if _config_instance is None:
+        config_path = str(__file__).removesuffix("bscp/Systems/config_instance.py") + "config/"
+        BSCPConfig(config_path)
+        _config_instance = BSCPConfig(config_path)
+    return _config_instance

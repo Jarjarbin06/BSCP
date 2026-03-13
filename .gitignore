@@ -1,4 +1,4 @@
 .idea
-*.jar-log
-*.ini
-*_save_*.json
+log
+config
+saves
