@@ -20,10 +20,11 @@ class Sprite(pygame.sprite.Sprite):
     def __init__(self, texture_path: str, position=(0, 0), size=(open_config().tile_size, open_config().tile_size)) -> None:
         if not isinstance(texture_path, str):
             open_log().log(
-                "WARN",
+                "ERROR",
                 "Sprite",
                 f"__init__: texture_path must be an str (currently {repr(type(texture_path))})"
             )
+            return
         if not isinstance(position, tuple):
             open_log().log(
                 "WARN",
@@ -32,10 +33,11 @@ class Sprite(pygame.sprite.Sprite):
             )
         if len(position) != 2:
             open_log().log(
-                "WARN",
+                "ERROR",
                 "Sprite",
                 f"__init__: position be made of exactly 2 int (currently {repr(len(position))})"
             )
+            return
         if not isinstance(position[0], int):
             open_log().log(
                 "WARN",
@@ -56,10 +58,11 @@ class Sprite(pygame.sprite.Sprite):
             )
         if len(size) != 2:
             open_log().log(
-                "WARN",
+                "ERROR",
                 "Sprite",
                 f"__init__: size be made of exactly 2 int (currently {repr(len(size))})"
             )
+            return
         if not isinstance(size[0], int):
             open_log().log(
                 "WARN",
@@ -83,6 +86,26 @@ class Sprite(pygame.sprite.Sprite):
         open_log().log("VALID", "Sprite", f"created: {repr(self)}")
 
     def draw(self, surface, zoom: float, camera_pos: Vector) -> None:
+        if not isinstance(surface, pygame.Surface):
+            open_log().log(
+                "ERROR",
+                "Sprite",
+                f"draw: surface must be a pygame.Surface (currently {repr(type(surface))})"
+            )
+            return
+        if not isinstance(zoom, float):
+            open_log().log(
+                "WARN",
+                "Sprite",
+                f"draw: zoom must be a float (currently {repr(type(zoom))})"
+            )
+        if not isinstance(camera_pos, Vector):
+            open_log().log(
+                "ERROR",
+                "Sprite",
+                f"draw: camera_pos must be a Vector (currently {repr(type(camera_pos))})"
+            )
+            return
         scaled_w = max(1, int(self.size.x * zoom))
         scaled_h = max(1, int(self.size.y * zoom))
         if zoom <= 2:

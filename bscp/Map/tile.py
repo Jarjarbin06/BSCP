@@ -14,11 +14,49 @@ import pygame
 
 from bscp.Systems.config_instance import open_config
 from bscp.Systems.logger_instance import open_log
+from bscp.Utils.vector import Vector
 
 
 class Tile:
 
     def __init__(self, x: int, y: int, tile_size: tuple[int, int] = (open_config().tile_size, open_config().tile_size)):
+        if not isinstance(x, int):
+            open_log().log(
+                "WARN",
+                "Tile",
+                f"__init__: x must be an int (currently {repr(type(x))})"
+            )
+        if not isinstance(y, int):
+            open_log().log(
+                "WARN",
+                "Tile",
+                f"__init__: y must be an int (currently {repr(type(y))})"
+            )
+        if not isinstance(tile_size, tuple):
+            open_log().log(
+                "WARN",
+                "Tile",
+                f"__init__: tile_size must be a tuple (currently {repr(type(tile_size))})"
+            )
+        if len(tile_size) != 2:
+            open_log().log(
+                "ERROR",
+                "Tile",
+                f"__init__: tile_size be made of exactly 2 int (currently {repr(len(tile_size))})"
+            )
+            return
+        if not isinstance(tile_size[0], int):
+            open_log().log(
+                "WARN",
+                "Tile",
+                f"__init__: tile_size[0] must be an int (currently {repr(type(tile_size[0]))})"
+            )
+        if not isinstance(tile_size[1], int):
+            open_log().log(
+                "WARN",
+                "Tile",
+                f"__init__: tile_size[1] must be an int (currently {repr(type(tile_size[1]))})"
+            )
         self.x: int = int(x)
         self.y: int = int(y)
         self.entity: Optional["NPC" | "SCP"] = None
@@ -56,10 +94,30 @@ class Tile:
             return self.spawn
         return None
 
-    def draw(self, surface, zoom: float, camera_pos: "Vector"):
+    def draw(self, surface, zoom: float, position: "Vector"):
+        if not isinstance(surface, pygame.Surface):
+            open_log().log(
+                "ERROR",
+                "Tile",
+                f"draw: surface must be a pygame.Surface (currently {repr(type(surface))})"
+            )
+            return
+        if not isinstance(zoom, float):
+            open_log().log(
+                "WARN",
+                "Tile",
+                f"draw: zoom must be a float (currently {repr(type(zoom))})"
+            )
+        if not isinstance(position, Vector):
+            open_log().log(
+                "ERROR",
+                "Tile",
+                f"draw: position must be a Vector (currently {repr(type(position))})"
+            )
+            return
         tile_w, tile_h = self.tile_size[0] * zoom, self.tile_size[1] * zoom
-        screen_x = (self.x - camera_pos.x) * tile_w
-        screen_y = (self.y - camera_pos.y) * tile_h
+        screen_x = (self.x - position.x) * tile_w
+        screen_y = (self.y - position.y) * tile_h
         pygame.draw.rect(surface, (0, 0, 0), pygame.Rect(screen_x, screen_y, tile_w, tile_h))
         color = self.color
         if self.selected:

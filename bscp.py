@@ -115,8 +115,8 @@ if __name__ == "__main__":
     panels["menu"] = BSCP.UI.Panels.Menu()
     panels["setting"] = BSCP.UI.Panels.Setting()
     current_panel = "menu"
-    bscp.map.tiles[85][85].set_spawn(BSCP.Entities.NPC.CD(85, 85))
-    bscp.map.tiles[95][95].set_spawn(BSCP.Entities.NPC.RRT(95, 95))
+    bscp.map.tiles[85][85].set_spawn(BSCP.Entities.NPC.CD(85.0, 85.0))
+    bscp.map.tiles[95][95].set_spawn(BSCP.Entities.NPC.RRT(95.0, 95.0))
 
     while bscp.window.running:
         clock.tick()

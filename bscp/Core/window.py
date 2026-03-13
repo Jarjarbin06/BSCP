@@ -29,10 +29,11 @@ class Window:
             )
         if len(size) != 2:
             open_log().log(
-                "WARN",
+                "ERROR",
                 "Window",
                 f"__init__: size be made of exactly 2 int (currently {repr(len(size))})"
             )
+            return
         if not isinstance(size[0], int):
             open_log().log(
                 "WARN",
@@ -99,10 +100,11 @@ class Window:
             )
         if len(color) != 3:
             open_log().log(
-                "WARN",
+                "ERROR",
                 "Window",
                 f"clear: color be made of exactly 3 int (currently {repr(len(color))})"
             )
+            return
         if not isinstance(color[0], int):
             open_log().log(
                 "WARN",
@@ -142,10 +144,11 @@ class Window:
             )
         if len(size) != 2:
             open_log().log(
-                "WARN",
+                "ERROR",
                 "Window",
                 f"set_size: size be made of exactly 2 int (currently {repr(len(size))})"
             )
+            return
         if not isinstance(size[0], int):
             open_log().log(
                 "WARN",

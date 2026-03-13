@@ -46,10 +46,11 @@ class Clock:
             )
         if scale <= 0:
             open_log().log(
-                "WARN",
+                "ERROR",
                 "Clock",
                 f"time_scale: scale must greater than 0 (currently {repr(scale)})"
             )
+            return
         self._time_scale = scale
 
     @property
@@ -75,10 +76,11 @@ class Clock:
             )
         if duration < 0:
             open_log().log(
-                "WARN",
+                "ERROR",
                 "Clock",
                 f"sleep: duration must be greater or equal to 0 (currently {repr(duration)})"
             )
+            return
         time.sleep(duration / self._time_scale)
 
     def reset(self) -> None:

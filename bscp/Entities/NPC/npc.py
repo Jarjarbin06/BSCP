@@ -12,6 +12,9 @@ from random import randint
 from typing import Optional, List
 from uuid import uuid4
 
+import pygame
+
+from bscp.Core.sprite import Sprite
 from bscp.Map.tilemap import TileMap
 from bscp.Systems.logger_instance import open_log
 from bscp.Systems.pathfinder import Pathfinder
@@ -21,6 +24,40 @@ from bscp.Utils.vector import Vector
 class NPC:
 
     def __init__(self, x: float, y: float, sprite: Optional["Sprite"], enemy: Optional[List[str]], faction_name: str = "FP", max_speed: float = 0.5) -> None:
+        if not isinstance(x, float):
+            open_log().log(
+                "WARN",
+                "NPC",
+                f"__init__: x must be a float (currently {repr(type(x))})"
+            )
+        if not isinstance(y, float):
+            open_log().log(
+                "WARN",
+                "NPC",
+                f"__init__: y must be a float (currently {repr(type(y))})"
+            )
+        if not isinstance(sprite, (Sprite, None)):
+            open_log().log(
+                "ERROR",
+                "NPC",
+                f"__init__: sprite must be a Sprite or None (currently {repr(type(sprite))})"
+            )
+            return
+        if not isinstance(enemy, (List, None)):
+            open_log().log(
+                "ERROR",
+                "NPC",
+                f"__init__: enemy must be a List or None (currently {repr(type(enemy))})"
+            )
+            return
+        if enemy is not None:
+            for e in enemy:
+                if not isinstance(e, str):
+                    open_log().log(
+                        "WARN",
+                        "NPC",
+                        f"__init__: enemy must contain only str (currently {repr(type(e))})"
+                    )
         self.id = uuid4()
         self.sprite: Optional["Sprite"] = sprite
         self.faction_name: str = faction_name
@@ -34,6 +71,19 @@ class NPC:
         open_log().log("VALID", "NPC", f"created: {repr(self)}")
 
     def update(self, dt: float, map: TileMap) -> None:
+        if not isinstance(dt, float):
+            open_log().log(
+                "WARN",
+                "NPC",
+                f"update: dt must be a float (currently {repr(type(dt))})"
+            )
+        if not isinstance(map, TileMap):
+            open_log().log(
+                "ERROR",
+                "NPC",
+                f"update: map must be a TileMap (currently {repr(type(map))})"
+            )
+            return
         if self.follow_entity is None:
             if self.target_loc is None:
                 self.target_loc = Vector(
@@ -69,12 +119,39 @@ class NPC:
             self.sprite.position = self.position
 
     def draw(self, surface, zoom: float, position: Vector) -> None:
+        if not isinstance(surface, pygame.Surface):
+            open_log().log(
+                "ERROR",
+                "NPC",
+                f"draw: surface must be a pygame.Surface (currently {repr(type(surface))})"
+            )
+            return
+        if not isinstance(zoom, float):
+            open_log().log(
+                "WARN",
+                "NPC",
+                f"draw: zoom must be a float (currently {repr(type(zoom))})"
+            )
+        if not isinstance(position, Vector):
+            open_log().log(
+                "ERROR",
+                "NPC",
+                f"draw: position must be a Vector (currently {repr(type(position))})"
+            )
+            return
         if self.sprite:
             self.sprite.draw(surface, zoom, position)
 
     def set_target_loc(self, target_loc: Vector) -> None:
-        open_log().log("INFO", "NPC", f"new target : {repr(target_loc)}")
+        if not isinstance(target_loc, Vector):
+            open_log().log(
+                "ERROR",
+                "NPC",
+                f"draw: set_target_loc must be a Vector (currently {repr(type(target_loc))})"
+            )
+            return
         self.target_loc = target_loc
+        open_log().log("INFO", "NPC", f"new target : {repr(target_loc)}")
 
     def __repr__(self) -> str:
         return (

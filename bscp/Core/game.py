@@ -37,10 +37,11 @@ class Game:
             )
         if len(size) != 2:
             open_log().log(
-                "WARN",
+                "ERROR",
                 "Game",
                 f"__init__: size be made of exactly 2 int (currently {repr(len(size))})"
             )
+            return
         if not isinstance(size[0], int):
             open_log().log(
                 "WARN",
@@ -121,7 +122,7 @@ class Game:
     def destroy(self) -> None:
         pygame.quit()
         open_log().log(
-            "INFO",
+            "DEBUG",
             "PyGame",
             "destroyed")
         open_log().log(
@@ -134,10 +135,11 @@ class Game:
     def add_entity(self, entity) -> bool:
         if not isinstance(entity, (NPC, SCP)):
             open_log().log(
-                "WARN",
+                "ERROR",
                 "Game",
                 f"add_entity: entity must be a NPC or an SCP (currently {repr(type(entity))})"
             )
+            return
         if self.max_entities_per_factions[entity.faction_name] == -1 or (
                 len(self.entities_factions[entity.faction_name]) < self.max_entities_per_factions[entity.faction_name]
         ):
@@ -159,10 +161,11 @@ class Game:
             )
         if dt < 0:
             open_log().log(
-                "WARN",
+                "ERROR",
                 "Game",
                 f"update: dt must be a greater or equal to 0 (currently {repr(dt)})"
             )
+            return
         for row in self.map.tiles:
             for tile in row:
                 if tile.entity is not None:
@@ -188,7 +191,7 @@ class Game:
                     max_amount = self.max_entities_per_factions[faction]
                     if max_amount != -1 and len(self.entities_factions[faction]) >= max_amount:
                         continue
-                    entity = type(entity_class)(tile.x, tile.y)
+                    entity = type(entity_class)(float(tile.x), float(tile.y))
                     if self.add_entity(entity):
                         tile.set_entity(entity)
                         if max_amount != -1 and len(self.entities_factions[faction]) >= max_amount:
