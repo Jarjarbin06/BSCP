@@ -11,10 +11,9 @@
 from bscp.Core.sprite import Sprite
 from bscp.Entities.NPC.factions import FACTIONS_LOGO, ENEMIES
 from bscp.Entities.NPC.npc import NPC
-from bscp.Systems.logger_instance import open_log
 
 
 class SD(NPC):
 
-    def __init__(self, x: float, y: float) -> None:
-        super().__init__(x, y, Sprite(FACTIONS_LOGO["SD"]), ENEMIES["SD"], "SD", 1.0)
+    def __init__(self, x: float, y: float, game: "Game | None" = None) -> None:
+        super().__init__(x, y, Sprite(FACTIONS_LOGO["SD"], game=game), ENEMIES["SD"], "SD", 1.0)

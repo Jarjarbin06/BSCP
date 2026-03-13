@@ -50,8 +50,8 @@ class Panel:
 class Menu(Panel):
     def __init__(self):
         super().__init__()
-        self.add_button("start", Button("start_game", "START", 50, (self.size[1] - 50) / 2, self.size[0] / 3, 50, (150, 150, 150), (50, 50, 50), 5))
-        self.add_button("quit", Button("quit_game", "QUIT", 50, ((self.size[1] - 50) / 2) + 70, self.size[0] / 3, 50, (150, 50, 50), (50, 50, 50), 5))
+        self.add_button("start_game", Button("start_game", "START", 50, (self.size[1] - 50) / 2, self.size[0] / 3, 50, (150, 150, 150), (50, 50, 50), 5))
+        self.add_button("quit_game", Button("quit_game", "QUIT", 50, ((self.size[1] - 50) / 2) + 70, self.size[0] / 3, 50, (150, 50, 50), (50, 50, 50), 5))
         open_log().log("VALID", "Menu", f"created: {repr(self)}")
 
     def __repr__(self) -> str:
@@ -65,9 +65,9 @@ class Menu(Panel):
 class Setting(Panel):
     def __init__(self):
         super().__init__()
-        self.add_button("return", Button("return_to_game", "RETURN", 50, (self.size[1] - 50) / 2, self.size[0] / 3, 50, (150, 150, 150), (50, 50, 50), 5))
-        self.add_button("reset", Button("reset_map", "RESET", 50, ((self.size[1] - 50) / 2) + 70, self.size[0] / 3, 50, (150, 50, 50), (50, 50, 50), 5))
-        self.add_button("menu", Button("return_to_menu", "MENU", 50, ((self.size[1] - 50) / 2) + 140, self.size[0] / 3, 50, (150, 50, 50), (50, 50, 50), 5))
+        self.add_button("return_to_game", Button("return_to_game", "RETURN", 50, (self.size[1] - 50) / 2, self.size[0] / 3, 50, (150, 150, 150), (50, 50, 50), 5))
+        self.add_button("reset_map", Button("reset_map", "RESET", 50, ((self.size[1] - 50) / 2) + 70, self.size[0] / 3, 50, (150, 50, 50), (50, 50, 50), 5))
+        self.add_button("return_to_menu", Button("return_to_menu", "MENU", 50, ((self.size[1] - 50) / 2) + 140, self.size[0] / 3, 50, (150, 50, 50), (50, 50, 50), 5))
         open_log().log("VALID", "Setting", f"created: {repr(self)}")
 
     def __repr__(self) -> str:

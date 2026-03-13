@@ -51,16 +51,16 @@ def handle_event():
         if not is_panel_active():
             clicked = panels[current_panel].get_clicked()
             if current_panel == "menu":
-                if clicked == "start":
+                if clicked == "start_game":
                     current_panel = None
-                elif clicked == "quit":
+                elif clicked == "quit_game":
                     bscp.window.close()
             if current_panel == "setting":
-                if clicked == "reset":
+                if clicked == "reset_map":
                     bscp.clear_entities()
-                elif clicked == "return":
+                elif clicked == "return_to_game":
                     current_panel = None
-                elif clicked == "menu":
+                elif clicked == "return_to_menu":
                     current_panel = "menu"
 
     def handle_mouse_wheel():
@@ -119,8 +119,17 @@ if __name__ == "__main__":
     panels["menu"] = BSCP.UI.Panels.Menu()
     panels["setting"] = BSCP.UI.Panels.Setting()
     current_panel = "menu"
-    bscp.map.tiles[85][85].set_spawn(BSCP.Entities.NPC.CD(85.0, 85.0))
-    bscp.map.tiles[95][95].set_spawn(BSCP.Entities.NPC.RRT(95.0, 95.0))
+    bscp.map.tiles[99][99].set_spawn(BSCP.Entities.NPC.CD(99.0, 99.0, bscp))
+    bscp.map.tiles[90][90].set_spawn(BSCP.Entities.NPC.CI(90.0, 90.0, bscp))
+    bscp.map.tiles[80][80].set_spawn(BSCP.Entities.NPC.IA(80.0, 80.0, bscp))
+    bscp.map.tiles[70][70].set_spawn(BSCP.Entities.NPC.ISD(70.0, 70.0, bscp))
+    bscp.map.tiles[60][60].set_spawn(BSCP.Entities.NPC.MD(60.0, 60.0, bscp))
+    bscp.map.tiles[50][50].set_spawn(BSCP.Entities.NPC.MTF(50.0, 50.0, bscp))
+    bscp.map.tiles[40][40].set_spawn(BSCP.Entities.NPC.O5(40.0, 40.0, bscp))
+    bscp.map.tiles[30][30].set_spawn(BSCP.Entities.NPC.RRT(30.0, 30.0, bscp))
+    bscp.map.tiles[20][20].set_spawn(BSCP.Entities.NPC.SCD(20.0, 20.0, bscp))
+    bscp.map.tiles[10][10].set_spawn(BSCP.Entities.NPC.SD(10.0, 10.0, bscp))
+    bscp.map.tiles[0][0].set_spawn(BSCP.Entities.NPC.SID(0.0, 0.0, bscp))
 
     while bscp.window.running:
         clock.tick()

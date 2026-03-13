@@ -8,6 +8,8 @@
 ###########################################
 
 
+from os import remove
+from pathlib import Path
 from typing import Dict, List
 
 import pygame
@@ -76,6 +78,7 @@ class Game:
         self.map = TileMap(open_config().map_size)
         self.zoom = 1.0
         self.position: Vector = Vector(0, 0)
+        self._temp_paths: set[Path | str] = set()
         self.entities_factions: Dict[str, List["NPC" | "SCP"]] = {
             "FP": [],
             "SCP": [],
@@ -116,6 +119,16 @@ class Game:
     def window(self) -> Window:
         return self._window
 
+    @property
+    def temp(self) -> set[Path | str]:
+        return self._temp_paths
+
+    def add_temp(self, path: Path | str) -> bool:
+        if path in self.temp:
+            return False
+        self.temp.add(path)
+        return True
+
     def display(self):
         self.window.display()
 
@@ -125,12 +138,32 @@ class Game:
             "DEBUG",
             "PyGame",
             "destroyed")
+        for temp_file in self.temp:
+            try:
+                remove(temp_file)
+                open_log().log(
+                    "INFO",
+                    "Game",
+                    f"temp file removed: {repr(temp_file)}"
+                )
+            except FileNotFoundError:
+                open_log().log(
+                    "WARN",
+                    "Game",
+                    f"failed to remove temp file: {repr(temp_file)}"
+                )
+        open_log().log(
+            "VALID",
+            "Game",
+            f"game's temporary files removed"
+        )
         open_log().log(
             "INFO",
             "Game",
             f"destroyed"
         )
         open_log().close()
+        open_log().clean(open_log().file_name, True, False)
 
     def add_entity(self, entity) -> bool:
         if not isinstance(entity, (NPC, SCP)):
@@ -139,7 +172,7 @@ class Game:
                 "Game",
                 f"add_entity: entity must be a NPC or an SCP (currently {repr(type(entity))})"
             )
-            return
+            return False
         if self.max_entities_per_factions[entity.faction_name] == -1 or (
                 len(self.entities_factions[entity.faction_name]) < self.max_entities_per_factions[entity.faction_name]
         ):
@@ -192,7 +225,7 @@ class Game:
                         max_amount = self.max_entities_per_factions[faction]
                         if max_amount != -1 and len(self.entities_factions[faction]) >= max_amount:
                             continue
-                        entity = type(entity_class)(float(tile.x), float(tile.y))
+                        entity = type(entity_class)(float(tile.x), float(tile.y), self)
                         if self.add_entity(entity):
                             tile.set_entity(entity)
                             if max_amount != -1 and len(self.entities_factions[faction]) >= max_amount:
@@ -215,6 +248,16 @@ class Game:
             "Game",
             f"map cleared from all entities"
         )
+
+    def show_log(self, all: bool = False):
+        if all:
+            print(open_log())
+        else:
+            string = str(open_log().filter(["WARN", "ERROR", "CRIT"] + (["DEBUG"] if open_config().get_bool("GAME", "debug") else [])))
+            if string.count("\n") > 4:
+                print(string)
+            else:
+                print("No log to show")
 
     def __repr__(self) -> str:
         map_width = len(self.map.tiles[0]) if self.map.tiles else 0

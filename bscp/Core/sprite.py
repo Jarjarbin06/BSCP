@@ -9,15 +9,43 @@
 
 
 import pygame
+from PIL import Image
 
-from bscp.Systems.logger_instance import open_log
 from bscp.Systems.config_instance import open_config
+from bscp.Systems.logger_instance import open_log
 from bscp.Utils.vector import Vector
 
 
 class Sprite(pygame.sprite.Sprite):
 
-    def __init__(self, texture_path: str, position=(0, 0), size=(open_config().tile_size, open_config().tile_size)) -> None:
+    def __init__(self, texture_path: str, position=(0, 0), size=(open_config().tile_size, open_config().tile_size), game: "Game | None" = None) -> None:
+
+        def clean_texture(texture_path: str):
+            file_name = texture_path.split("/")[-1]
+            path = texture_path.removesuffix(file_name)
+            new_texture_path = f"{path}bscp_clean_{file_name}"
+            if game.add_temp(new_texture_path):
+                im = Image.open(texture_path)
+                mode = im.mode
+                if mode == "L":
+                    im = im.convert("L")
+                    open_log().log(
+                        "INFO",
+                        "Sprite",
+                        f"image converted: {repr(mode)} -> {repr(im.mode)}"
+                    )
+                mode = im.mode
+                if mode != "RGBA":
+                    im = im.convert("RGBA")
+                    open_log().log("INFO", "Sprite", f"image converted: {repr(mode)} -> {repr(im.mode)}")
+                im.save(new_texture_path, icc_profile=None)
+                open_log().log(
+                    "INFO",
+                    "Sprite",
+                    f"image cleaned: {repr(texture_path)} -> {repr(new_texture_path)}"
+                )
+            return new_texture_path
+
         if not isinstance(texture_path, str):
             open_log().log(
                 "ERROR",
@@ -79,6 +107,8 @@ class Sprite(pygame.sprite.Sprite):
         self.size = Vector(size[0], size[1])
         self.position = Vector(position[0], position[1])
         self.tile_size = size[0]
+        if game is not None:
+            texture_path = clean_texture(texture_path)
         self.original_image = pygame.image.load(texture_path).convert_alpha()
         self.image = pygame.transform.scale(self.original_image, self.size.to_tuple())
         self.rect = self.image.get_rect()

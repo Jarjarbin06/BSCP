@@ -36,6 +36,9 @@ class BSCPLog:
     def __repr__(self) -> str:
         return f"BSCPLog(path={self.file_path!r}, file_name={self.file_name!r}, json={self.json})"
 
+    def filter(self, f: list[str] | str) -> str:
+        return self._log.str_filtered(f)
+
     def log(self, status: str, title: str, description: str) -> None:
         status = status.upper()
         if status not in self.STATUS_COLORS:
@@ -68,6 +71,9 @@ class BSCPLog:
 
     def close(self) -> None:
         self._log.close()
+
+    def clean(self, output_file_name: str | None = None, compress_repeats: bool = True, compress_log: bool = False) -> None:
+        self._log.clean(output_file_name, compress_repeats, compress_log)
 
     def delete(self) -> None:
         self._log.delete()
