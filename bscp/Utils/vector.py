@@ -80,12 +80,28 @@ class Vector:
         self.y /= other
         return self
 
+    def __hash__(self) -> int:
+        return hash((round(self.x, 5), round(self.y, 5)))
+
     def __neg__(self) -> Self:
         return Vector(-self.x, -self.y)
 
     def __eq__(self, other: Self) -> bool:
         if not isinstance(other, Vector): return NotImplemented
         return round(self.x, 5) == round(other.x, 5) and round(self.y, 5) == round(other.y, 5)
+
+    def __lt__(self, other: Self) -> bool:
+        if not isinstance(other, Vector): return NotImplemented
+        return (round(self.x, 5), round(self.y, 5)) < (round(other.x, 5), round(other.y, 5))
+
+    def __le__(self, other: Self) -> bool:
+        return self == other or self < other
+
+    def __gt__(self, other: Self) -> bool:
+        return not (self <= other)
+
+    def __ge__(self, other: Self) -> bool:
+        return not (self < other)
 
     def __abs__(self) -> float:
         return self.length()
@@ -94,8 +110,14 @@ class Vector:
         yield self.x
         yield self.y
 
-    def __repr__(self):
-        return f"Vector({self.x}, {self.y})"
+    def __repr__(self) -> str:
+        return (
+            f"<Vector "
+            f"x={self.x:.2f} "
+            f"y={self.y:.2f} "
+            f"len={self.length():.2f}"
+            f">"
+        )
 
     def length(self) -> float:
         return hypot(self.x, self.y)

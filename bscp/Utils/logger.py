@@ -7,9 +7,10 @@
 ###                                     ###
 ###########################################
 
+
+from datetime import datetime
 from os import listdir, makedirs
 from os.path import isdir
-from datetime import datetime
 
 from jarbin_toolkit_log import Log as BaseLog
 

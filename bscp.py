@@ -15,8 +15,8 @@ import bscp as BSCP
 panels: dict[str, BSCP.UI.Panels.Panel] = {}
 current_panel: Optional[str] = None
 
-def handle_event():
 
+def handle_event():
     def handle_key():
         global current_panel
         if event.key == pygame.K_ESCAPE and current_panel is None:
@@ -50,31 +50,46 @@ def handle_event():
         if event.type == pygame.MOUSEBUTTONDOWN:
             handle_mouse()
 
+
 def update_and_calc():
     bscp.check_entities()
+    bscp.update(clock.delta_time)
+
 
 def draw():
     bscp.window.clear()
     if current_panel is None:
         update_and_calc()
-        bscp.map.draw(bscp.window.surface)
-        for entity in bscp.entities:
-            entity.draw(bscp.window.surface, bscp.map.tile_size)
+        bscp.map.draw(bscp.window.surface, bscp.zoom, bscp.position)
+        for faction in bscp.entities_factions.values():
+            for entity in faction:
+                entity.draw(bscp.window.surface, bscp.map.tile_size)
     if current_panel and current_panel in panels:
         panels[current_panel].draw(bscp.window.surface)
     bscp.window.display()
 
+
 if __name__ == "__main__":
-    bscp = BSCP.Core.Game((1920, 1080))
+    bscp = BSCP.Core.Game()
+    clock = BSCP.Core.Clock()
+
+    TARGET_FPS = 60
+    TARGET_FRAME_TIME = 1.0 / TARGET_FPS
 
     panels["menu"] = BSCP.UI.Panels.Menu()
     panels["setting"] = BSCP.UI.Panels.Setting()
     current_panel = "menu"
     bscp.map.tiles[5][5].set_spawn(BSCP.Entities.Factions.CD(5, 5))
+    bscp.map.tiles[95][95].set_spawn(BSCP.Entities.Factions.RRT(95, 95))
 
     while bscp.window.running:
+        clock.tick()
         handle_event()
         draw()
 
-    print(bscp.entities)
+        frame_time = clock.delta_time
+        if frame_time < TARGET_FRAME_TIME:
+            clock.sleep(TARGET_FRAME_TIME - frame_time)
+
+    bscp.map.debug()
     bscp.destroy()

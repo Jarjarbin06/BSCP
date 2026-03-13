@@ -8,12 +8,5 @@
 ###########################################
 
 
-from bscp.Core.sprite import Sprite
-from bscp.Entities.Factions.factions import FACTIONS_LOGO, ENEMIES
-from bscp.Entities.Factions.npc import NPC
-
-
-class MTF(NPC):
-
-    def __init__(self, x: float, y: float) -> None:
-        super().__init__(x, y, Sprite(FACTIONS_LOGO["MTF"]), ENEMIES["MTF"], "MTF", 1.2)
+class SCP:
+    pass

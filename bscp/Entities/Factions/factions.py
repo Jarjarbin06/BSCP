@@ -41,7 +41,7 @@ FACTIONS_LOGO = {
 }
 
 FACTION_TYPES = {
-    "FP": "e",
+    "FP": "a",
     "SCP": "e",
     "CI": "e",
     "CD": "n",
@@ -94,7 +94,7 @@ ENEMIES = {
 }
 
 FACTION_INFO = {
-    "FPB": {
+    "FP": {
         "full_name": "Foundation Personal Base",
         "type": "e",
         "description": "FP",

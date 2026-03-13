@@ -12,19 +12,20 @@ from typing import Optional
 
 import pygame
 
-from bscp.Entities.entity import Entity
+from bscp.Systems.config_instance import open_config
 
 
 class Tile:
 
-    def __init__(self, x: int, y: int, tile_size: tuple[int, int] = (10, 10)):
+    def __init__(self, x: int, y: int, tile_size: tuple[int, int] = (open_config().tile_size, open_config().tile_size)):
         self.x: int = int(x)
         self.y: int = int(y)
-        self.entity: Optional[Entity] = None
+        self.entity: Optional["NPC" | "SCP"] = None
         self.color = (50, 50, 50)
-        self.tile_size = (10, 10)
+        self.tile_size = tile_size
         self.selected: bool = False
-        self.spawn: Optional[Entity] = None
+        self.spawn: Optional["NPC" | "SCP"] = None
+        self.wall: bool = False
 
     def select(self) -> None:
         self.selected = True
@@ -32,28 +33,55 @@ class Tile:
     def unselect(self) -> None:
         self.selected = False
 
+    def make_wall(self) -> None:
+        self.wall = True
+
+    def unmake_wall(self) -> None:
+        self.wall = False
+
     def remove_entity(self):
         if self.entity is not None:
             self.entity = None
 
-    def set_entity(self, entity: Entity):
+    def set_entity(self, entity: "Entity"):
         if self.entity is None:
             self.entity = entity
 
-    def set_spawn(self, spawn: Entity):
-        self.spawn = spawn.copy()
+    def set_spawn(self, spawn: "Entity"):
+        self.spawn = type(spawn)(self.x, self.y)
 
-    def spawn_new_entity(self) -> Optional[Entity]:
+    def spawn_new_entity(self) -> Optional["Entity"]:
         if self.entity is None and self.spawn is not None:
-            self.entity = self.spawn.copy()
+            self.entity = type(self.spawn)(self.x, self.y)
             return self.entity
         return None
 
-    def draw(self, surface):
+    def draw(self, surface, zoom: float, camera_pos: "Vector"):
         color = self.color
         if self.selected:
-            color = (self.color[0] - 50, self.color[1] - 50, self.color[2] - 50)
+            color = (
+                max(color[0] - 50, 0),
+                max(color[1] - 50, 0),
+                max(color[2] - 50, 0)
+            )
         if self.spawn is not None:
             color = (50, 150, 50)
-        pygame.draw.rect(surface, (0, 0, 0), pygame.Rect(self.x * self.tile_size[0], self.y * self.tile_size[1], self.tile_size[0], self.tile_size[1]))
-        pygame.draw.rect(surface, color, pygame.Rect((self.x + 0.25) * self.tile_size[0], (self.y + 0.25) * self.tile_size[1], self.tile_size[0] - 0.5, self.tile_size[1] - 0.5))
+        tile_w, tile_h = self.tile_size[0] * zoom, self.tile_size[1] * zoom
+        screen_x = (self.x - camera_pos.x) * tile_w
+        screen_y = (self.y - camera_pos.y) * tile_h
+        pygame.draw.rect(
+            surface,
+            (0, 0, 0),
+            pygame.Rect(screen_x, screen_y, tile_w, tile_h)
+        )
+        margin_w, margin_h = tile_w * 0.05, tile_h * 0.05
+        pygame.draw.rect(
+            surface,
+            color,
+            pygame.Rect(
+                screen_x + margin_w,
+                screen_y + margin_h,
+                tile_w - 2 * margin_w,
+                tile_h - 2 * margin_h
+            )
+        )
