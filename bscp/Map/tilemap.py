@@ -22,7 +22,6 @@ class TileMap:
         self.tile_size: tuple[int, int] = (open_config().tile_size, open_config().tile_size)
         self.tiles: List[List[Tile]] = [[Tile(x, y, tile_size=self.tile_size) for x in range(size[0])] for y in range(size[1])]
         open_log().log("VALID", "TileMap", f"created: {repr(self)}")
-        self.log_debug()
 
     def draw(self, surface, zoom: float, position: Vector):
         for row in self.tiles:

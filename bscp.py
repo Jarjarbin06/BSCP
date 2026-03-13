@@ -16,19 +16,23 @@ panels: dict[str, BSCP.UI.Panels.Panel] = {}
 current_panel: Optional[str] = None
 
 
+def is_panel_active():
+    return current_panel is None
+
+
 def handle_event():
     def handle_key_press():
         global current_panel
-        if current_panel is None:
+        if is_panel_active():
             if event.key == pygame.K_ESCAPE:
                 current_panel = "setting"
-        if current_panel is not None:
+        if not is_panel_active():
             pass
 
     def handle_key_hold():
         global current_panel
         keys = pygame.key.get_pressed()
-        if current_panel is None:
+        if is_panel_active():
             if keys[pygame.K_z]:
                 bscp.position.y -= 0.5 * (clock.delta_time * TARGET_FPS)
             if keys[pygame.K_s]:
@@ -37,14 +41,14 @@ def handle_event():
                 bscp.position.x -= 0.5 * (clock.delta_time * TARGET_FPS)
             if keys[pygame.K_d]:
                 bscp.position.x += 0.5 * (clock.delta_time * TARGET_FPS)
-        if current_panel is not None:
+        if not is_panel_active():
             pass
 
     def handle_mouse_click():
         global current_panel
-        if current_panel is None:
+        if is_panel_active():
             pass
-        if current_panel is not None:
+        if not is_panel_active():
             clicked = panels[current_panel].get_clicked()
             if current_panel == "menu":
                 if clicked == "start":
@@ -61,12 +65,12 @@ def handle_event():
 
     def handle_mouse_wheel():
         global current_panel
-        if current_panel is None:
+        if is_panel_active():
             if event.dict["y"] > 0:
                 bscp.zoom += 0.05
             elif event.dict["y"] < 0:
                 bscp.zoom -= 0.05
-        if current_panel is not None:
+        if not is_panel_active():
             pass
 
     def handle_other():
@@ -94,7 +98,7 @@ def update_and_calc():
 
 def draw():
     bscp.window.clear()
-    if current_panel is None:
+    if is_panel_active():
         update_and_calc()
         bscp.map.draw(bscp.window.surface, bscp.zoom, bscp.position)
         for faction in bscp.entities_factions.values():
@@ -128,4 +132,3 @@ if __name__ == "__main__":
             clock.sleep(TARGET_FRAME_TIME - frame_time)
 
     bscp.destroy()
-    print(BSCP.Systems.open_log())

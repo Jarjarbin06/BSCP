@@ -184,24 +184,25 @@ class Game:
         def check_spawn():
             for row in self.map.tiles:
                 for tile in row:
-                    entity_class = tile.get_spawn()
-                    if entity_class is None:
-                        continue
-                    faction = entity_class.faction_name
-                    max_amount = self.max_entities_per_factions[faction]
-                    if max_amount != -1 and len(self.entities_factions[faction]) >= max_amount:
-                        continue
-                    entity = type(entity_class)(float(tile.x), float(tile.y))
-                    if self.add_entity(entity):
-                        tile.set_entity(entity)
+                    if tile.spawn is not None:
+                        entity_class = tile.get_spawn()
+                        if entity_class is None:
+                            continue
+                        faction = entity_class.faction_name
+                        max_amount = self.max_entities_per_factions[faction]
                         if max_amount != -1 and len(self.entities_factions[faction]) >= max_amount:
-                            open_log().log(
-                                "DEBUG",
-                                "Game",
-                                f"{repr(faction)} is now at max spawned capacity ({len(self.entities_factions[faction])}/{max_amount})"
-                            )
-                    else:
-                        tile.remove_entity()
+                            continue
+                        entity = type(entity_class)(float(tile.x), float(tile.y))
+                        if self.add_entity(entity):
+                            tile.set_entity(entity)
+                            if max_amount != -1 and len(self.entities_factions[faction]) >= max_amount:
+                                open_log().log(
+                                    "DEBUG",
+                                    "Game",
+                                    f"{repr(faction)} is now at max spawned capacity ({len(self.entities_factions[faction])}/{max_amount})"
+                                )
+                        else:
+                            tile.remove_entity()
 
         check_spawn()
         check_positions()
