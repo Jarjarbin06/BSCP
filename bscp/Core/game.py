@@ -10,7 +10,7 @@
 
 from os import remove
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Any, Callable
 
 import pygame
 
@@ -74,6 +74,32 @@ class Game:
             "PyGame",
             "initialized"
         )
+        self._flags: dict[str, tuple[tuple[str], Any, Callable]] = {
+            "debug": (("-d", "--debug"), False, bool),
+            "profile": (("-p", "--profile"), "None", str),
+            "trace-assets": (("-t", "--trace-assets"), False, bool),
+            "log-level": (("--log-level",), "ERROR", str),
+            "log-open": (("-L", "--log-open"), False, bool),
+            "show-log": (("-l", "--show-log"), False, bool),
+            "fullscreen": (("-f", "--fullscreen"), False, bool),
+            "windowed": (("-w", "--windowed"), False, bool),
+            "no-vsync": (("--no-vsync",), False, bool),
+            "fps": (("--fps",), 60, int),
+            "map-editor": (("-e", "--map-editor"), False, bool),
+            "no-npc": (("-n", "--no-npc"), False, bool),
+            "spawn-test": (("-S", "--spawn-test"), False, bool),
+            "about": (("-a", "--about"), False, bool),
+            "help": (("-h", "--help"), False, bool),
+            "fast-sim": (("-F", "--fast-sim"), False, bool),
+            "pause-on-start": (("-P", "--pause-on-start"), False, bool),
+            "ai-debug": (("-A", "--ai-debug"), False, bool),
+            "generate-map": (("-g", "--generate-map"), False, bool),
+            "map-size": (("--map-size",), open_config().map_size, tuple),
+            "infinite-entities": (("-I", "--infinite-entities"), False, bool),
+            "infinite-resources": (("--infinite-resources",), False, bool),
+            "safe-mode": (("-s", "--safe-mode"), False, bool),
+            "benchmark": (("-b", "--benchmark"), False, bool)
+        }
         self._window = Window(size, title, vsync)
         self.map = TileMap(open_config().map_size)
         self.zoom = 1.0
@@ -122,6 +148,9 @@ class Game:
     @property
     def temp(self) -> set[Path | str]:
         return self._temp_paths
+
+    def check_flag(self) -> None:
+        pass
 
     def add_temp(self, path: Path | str) -> bool:
         if path in self.temp:

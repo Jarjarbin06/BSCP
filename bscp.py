@@ -6,6 +6,8 @@
 ###   Build. Secure. Contain. Protect   ###
 ###                                     ###
 ###########################################
+
+
 from typing import Optional
 
 import pygame
@@ -141,3 +143,5 @@ if __name__ == "__main__":
             clock.sleep(TARGET_FRAME_TIME - frame_time)
 
     bscp.destroy()
+
+
