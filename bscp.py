@@ -20,7 +20,9 @@ HUD: Optional[bscp.UI.HUD.HUD] = None
 PANELS: dict[str, bscp.UI.Panels.Panel] = {}
 CURRENT_PANEL: Optional[str] = None
 TARGET_FPS: int = 0
+FIXED_TARGET_FRAME_TIME : float = 0.0
 TARGET_FRAME_TIME: float = 0.0
+EVENT_ACCUMULATOR: float = 0.0
 
 
 def is_panel_active():
@@ -41,13 +43,13 @@ def handle_event():
         keys = pygame.key.get_pressed()
         if is_panel_active():
             if keys[pygame.K_z]:
-                BSCP_GAME.camera_position.y -= 0.5 * (CLOCK.delta_time * TARGET_FPS)
+                BSCP_GAME.camera_position.y -= 5 * CLOCK.delta_time
             if keys[pygame.K_s]:
-                BSCP_GAME.camera_position.y += 0.5 * (CLOCK.delta_time * TARGET_FPS)
+                BSCP_GAME.camera_position.y += 5 * CLOCK.delta_time
             if keys[pygame.K_q]:
-                BSCP_GAME.camera_position.x -= 0.5 * (CLOCK.delta_time * TARGET_FPS)
+                BSCP_GAME.camera_position.x -= 5 * CLOCK.delta_time
             if keys[pygame.K_d]:
-                BSCP_GAME.camera_position.x += 0.5 * (CLOCK.delta_time * TARGET_FPS)
+                BSCP_GAME.camera_position.x += 5 * CLOCK.delta_time
         if not is_panel_active():
             pass
 
@@ -74,9 +76,9 @@ def handle_event():
         global CURRENT_PANEL
         if is_panel_active():
             if event.dict["y"] > 0:
-                BSCP_GAME.camera_zoom += 0.05
+                BSCP_GAME.camera_zoom += 0.1
             elif event.dict["y"] < 0:
-                BSCP_GAME.camera_zoom -= 0.05
+                BSCP_GAME.camera_zoom -= 0.1
         if not is_panel_active():
             pass
 
@@ -87,16 +89,22 @@ def handle_event():
         if event.type == pygame.VIDEORESIZE:
             BSCP_GAME.window.set_size(event.size)
 
-    handle_key_hold()
+    global EVENT_ACCUMULATOR
+    EVENT_ACCUMULATOR += CLOCK.delta_time
 
-    for event in BSCP_GAME.window.poll_events():
-        handle_other()
-        if event.type == pygame.KEYDOWN:
-            handle_key_press()
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            handle_mouse_click()
-        if event.type == pygame.MOUSEWHEEL:
-            handle_mouse_wheel()
+    while EVENT_ACCUMULATOR >= FIXED_TARGET_FRAME_TIME:
+
+        for event in BSCP_GAME.window.poll_events():
+            handle_other()
+            if event.type == pygame.KEYDOWN:
+                handle_key_press()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                handle_mouse_click()
+            if event.type == pygame.MOUSEWHEEL:
+                handle_mouse_wheel()
+
+        handle_key_hold()
+        EVENT_ACCUMULATOR -= FIXED_TARGET_FRAME_TIME
 
 
 def update_and_compute():
@@ -125,13 +133,14 @@ def init():
         HUD = bscp.UI.HUD.INGame(BSCP_GAME, CLOCK)
 
     def rendering():
-        global TARGET_FPS, TARGET_FRAME_TIME
+        global TARGET_FPS, FIXED_TARGET_FRAME_TIME, TARGET_FRAME_TIME
         TARGET_FPS = (
             bscp.Systems.open_config().fps
             if not BSCP_GAME.get_flag("fast-sim")
             else
             10000
         )
+        FIXED_TARGET_FRAME_TIME = 1.0 /  bscp.Systems.open_config().fps
         TARGET_FRAME_TIME = 1.0 / TARGET_FPS
 
     def panels():
@@ -173,6 +182,7 @@ def launch():
             if accumulated_time >= TARGET_FRAME_TIME:
                 draw()
                 CLOCK.frame()
+                BSCP_GAME.add_fps(CLOCK.fps)
                 accumulated_time -= TARGET_FRAME_TIME
 
     except KeyboardInterrupt:

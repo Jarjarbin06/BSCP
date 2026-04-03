@@ -84,7 +84,7 @@ class Game:
             "fullscreen": (("-f", "--fullscreen"), False, bool),
             "windowed": (("-w", "--windowed"), False, bool),
             "no-vsync": (("--no-vsync",), False, bool),
-            "fps": (("--fps",), 60, int),
+            "fps": (("--fps",), open_config().fps, int),
             "map-editor": (("-e", "--map-editor"), False, bool),
             "no-npc": (("-n", "--no-npc"), False, bool),
             "spawn-test": (("-S", "--spawn-test"), False, bool),
@@ -101,11 +101,13 @@ class Game:
             "benchmark": (("-b", "--benchmark"), False, bool)
         }
         self.check_flag()
-        self._window = Window(size, title, vsync)
-        self.rendering_limit = pygame.Surface.get_rect(self._window.surface)
-        self.map = TileMap(open_config().map_size)
-        self.camera_zoom = 1.0
+        self._window: Window = Window(size, title, vsync)
+        self.rendering_limit: pygame.Rect = pygame.Surface.get_rect(self._window.surface)
+        self.map: TileMap = TileMap(open_config().map_size)
+        self.camera_zoom: float = 1.0
         self.camera_position: Vector = Vector(0, 0)
+        self.fps_list_limit: int = self.get_flag("fps") * 5
+        self.fps_list: list[float] = [0.00000]
         self._temp_paths: set[Path | str] = set()
         self.entities_factions: Dict[str, List[NPC | SCP]] = {
             "FP": [],
@@ -169,6 +171,20 @@ class Game:
             self
     ) -> set[Path | str]:
         return self._temp_paths
+
+    @property
+    def lowest_fps(
+            self
+    ) -> float:
+        return min(self.fps_list)
+
+    def add_fps(
+            self,
+            fps: float
+    ) -> None:
+        self.fps_list.append(fps)
+        if len(self.fps_list) > self.fps_list_limit:
+            self.fps_list.pop(0)
 
     def check_flag(
             self
@@ -318,7 +334,7 @@ class Game:
     def check_entities(
             self
     ) -> None:
-        def check_temps():
+        def check_tmps():
             from os.path import exists
             to_remove: list = []
             for tmp in self._temp_paths:
@@ -329,7 +345,7 @@ class Game:
                 open_log().log(
                     "WARN",
                     "Game",
-                    f"temp file was removed: {repr(to_remove)}"
+                    f"temp file was removed: {repr(tmp)}"
                 )
 
         def check_positions():
@@ -363,7 +379,7 @@ class Game:
                         else:
                             tile.remove_entity()
 
-        check_temps()
+        check_tmps()
         check_spawn()
         check_positions()
 

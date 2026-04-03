@@ -64,10 +64,24 @@ class INGame(HUD):
                 5,
                 5,
                 100,
-                50,
+                15,
                 5,
                 clock,
                 "fps",
+                round
+            )
+        )
+        self.add_element(
+            HUDElement_Text(
+                "LOWEST_FPS",
+                "(low: {})",
+                5,
+                25,
+                100,
+                15,
+                5,
+                game,
+                "lowest_fps",
                 round
             )
         )
@@ -78,7 +92,7 @@ class INGame(HUD):
                 110,
                 5,
                 100,
-                50,
+                15,
                 5,
                 game,
                 "temp",
