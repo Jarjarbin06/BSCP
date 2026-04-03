@@ -18,7 +18,12 @@ from jarbin_toolkit_log import Log as BaseLog
 class BSCPLog:
     STATUS_COLORS = ["INFO", "VALID", "WARN", "ERROR", "DEBUG"]
 
-    def __init__(self, path: str, file_name: str | None = None, json: bool = False) -> None:
+    def __init__(
+            self,
+            path: str,
+            file_name: str | None = None,
+            json: bool = False
+    ) -> None:
         if not isdir(path):
             makedirs(path)
         self.file_path = path
@@ -30,50 +35,99 @@ class BSCPLog:
         if is_creation:
             self._log.log("VALID", "LogFile", f"log file created in {self.file_path + self.file_name + (".json" if self.json else ".jar-log")!r} at {timestamp!r}")
 
-    def __str__(self) -> str:
+    def __str__(
+            self
+    ) -> str:
         return str(self._log)
 
-    def __repr__(self) -> str:
+    def __repr__(
+            self
+    ) -> str:
         return f"BSCPLog(path={self.file_path!r}, file_name={self.file_name!r}, json={self.json})"
 
-    def filter(self, f: list[str] | str) -> str:
+    def filter(
+            self,
+            f: list[str] | str
+    ) -> str:
         return self._log.str_filtered(f)
 
-    def log(self, status: str, title: str, description: str) -> None:
+    def log(
+            self,
+            status: str,
+            title: str,
+            description: str
+    ) -> None:
         status = status.upper()
         if status not in self.STATUS_COLORS:
             status = "INFO"
         self._log.log(status, title, description)
 
-    def info(self, title: str, description: str) -> None:
+    def info(
+            self,
+            title: str,
+            description: str
+    ) -> None:
         self.log("INFO", title, description)
 
-    def valid(self, title: str, description: str) -> None:
+    def valid(
+            self,
+            title: str,
+            description: str
+    ) -> None:
         self.log("VALID", title, description)
 
-    def warn(self, title: str, description: str) -> None:
+    def warn(
+            self,
+            title: str,
+            description: str
+    ) -> None:
         self.log("WARN", title, description)
 
-    def error(self, title: str, description: str) -> None:
+    def error(
+            self,
+            title: str,
+            description: str
+    ) -> None:
         self.log("ERROR", title, description)
 
-    def debug(self, title: str, description: str) -> None:
+    def debug(
+            self,
+            title: str,
+            description: str
+    ) -> None:
         self.log("DEBUG", title, description)
 
-    def comment(self, comment: str) -> None:
+    def comment(
+            self,
+            comment: str
+    ) -> None:
         self._log.comment(comment)
 
-    def save_raw(self, log_str: str) -> None:
+    def save_raw(
+            self,
+            log_str: str
+    ) -> None:
         self._log.save(log_str)
 
-    def read(self) -> str:
+    def read(
+            self
+    ) -> str:
         return self._log.read()
 
-    def close(self) -> None:
+    def close(
+            self
+    ) -> None:
         self._log.close()
 
-    def clean(self, output_file_name: str | None = None, compress_repeats: bool = True, compress_log: bool = False) -> None:
+    def clean(
+            self,
+            output_file_name: str | None = None,
+            compress_repeats: bool = True,
+            compress_log: bool = False
+    ) -> None:
         self._log.clean(output_file_name, compress_repeats, compress_log)
 
-    def delete(self) -> None:
+    def delete(
+            self
+    ) -> None:
         self._log.delete()

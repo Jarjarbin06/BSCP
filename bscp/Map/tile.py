@@ -8,8 +8,6 @@
 ###########################################
 
 
-from typing import Optional
-
 import pygame
 
 from bscp.Systems.config_instance import open_config
@@ -19,7 +17,12 @@ from bscp.Utils.vector import Vector
 
 class Tile:
 
-    def __init__(self, x: int, y: int, tile_size: tuple[int, int] = (open_config().tile_size, open_config().tile_size)):
+    def __init__(
+            self,
+            x: int,
+            y: int,
+            tile_size: tuple[int, int] = (open_config().tile_size, open_config().tile_size)
+    ):
         if not isinstance(x, int):
             open_log().log(
                 "WARN",
@@ -59,42 +62,65 @@ class Tile:
             )
         self.x: int = int(x)
         self.y: int = int(y)
-        self.entity: Optional["NPC" | "SCP"] = None
+        self.entity: "NPC | SCP | None" = None
         self.color = (50, 50, 50)
         self.tile_size = tile_size
         self.selected: bool = False
-        self.spawn: Optional["NPC" | "SCP"] = None
+        self.spawn: "NPC | SCP | None" = None
         self.wall: bool = False
 
-    def select(self) -> None:
+    def select(
+            self
+    ) -> None:
         self.selected = True
 
-    def unselect(self) -> None:
+    def unselect(
+            self
+    ) -> None:
         self.selected = False
 
-    def make_wall(self) -> None:
+    def make_wall(
+            self
+    ) -> None:
         self.wall = True
 
-    def unmake_wall(self) -> None:
+    def unmake_wall(
+            self
+    ) -> None:
         self.wall = False
 
-    def remove_entity(self):
+    def remove_entity(
+            self
+    ):
         if self.entity is not None:
             self.entity = None
 
-    def set_entity(self, entity: "Entity"):
+    def set_entity(
+            self,
+            entity: "NPC | SCP"
+    ):
         if self.entity is None:
             self.entity = entity
 
-    def set_spawn(self, spawn: "Entity"):
+    def set_spawn(
+            self,
+            spawn: "NPC | SCP"
+    ):
         self.spawn = spawn
 
-    def get_spawn(self):
+    def get_spawn(
+            self
+    ):
         if self.entity is None and self.spawn is not None:
             return self.spawn
         return None
 
-    def draw(self, surface, zoom: float, position: "Vector"):
+    def draw(
+            self,
+            surface,
+            zoom: float,
+            position: "Vector"
+    ):
         if not isinstance(surface, pygame.Surface):
             open_log().log(
                 "ERROR",
@@ -140,7 +166,9 @@ class Tile:
             )
         )
 
-    def __repr__(self) -> str:
+    def __repr__(
+            self
+    ) -> str:
         return (
             f"<Tile "
             f"pos=({self.x}, {self.y}) "

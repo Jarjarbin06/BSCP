@@ -15,5 +15,20 @@ from bscp.Entities.NPC.npc import NPC
 
 class SCD(NPC):
 
-    def __init__(self, x: float, y: float, game: "Game | None" = None) -> None:
-        super().__init__(x, y, Sprite(FACTIONS_LOGO["SCD"], game=game), ENEMIES["SCD"], "SCD", 0.9)
+    def __init__(
+            self,
+            x: float,
+            y: float,
+            game: "Game | None" = None
+    ) -> None:
+        super().__init__(
+            x,
+            y,
+            Sprite(
+                FACTIONS_LOGO["SCD"],
+                game=game
+            ),
+            ENEMIES["SCD"],
+            "SCD",
+            0.9
+        )

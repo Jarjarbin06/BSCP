@@ -77,7 +77,7 @@ check_environment() {
         exit 1
     fi
 
-    echo "[INFO] Python version:"
+    echo -n "[INFO] Python version: "
     python3 --version
 
     if [ -d "$VENV_DIR" ]; then

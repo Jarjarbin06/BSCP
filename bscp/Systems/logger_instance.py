@@ -14,7 +14,7 @@ from bscp.Utils.logger import BSCPLog
 _log_instance: BSCPLog | None = None
 
 
-def open_log() -> BSCPLog:
+def open_log() -> BSCPLog | None:
     global _log_instance
     if _log_instance is None:
         if open_config().log_enabled:

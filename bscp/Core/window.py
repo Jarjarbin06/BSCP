@@ -72,25 +72,44 @@ class Window:
         )
 
     @property
-    def running(self) -> bool:
+    def running(
+            self
+    ) -> bool:
         return self._running
 
     @property
-    def surface(self):
+    def surface(
+            self
+    ):
         return self._surface
 
     @property
-    def width(self) -> int:
+    def width(
+            self
+    ) -> int:
         return self._size[0]
 
     @property
-    def height(self) -> int:
+    def height(
+            self
+    ) -> int:
         return self._size[1]
 
-    def poll_events(self):
+    def draw_text(
+            self,
+            text: str
+    ) -> None:
+        pass
+
+    def poll_events(
+            self
+    ):
         return pygame.event.get()
 
-    def clear(self, color=(0, 0, 0)) -> None:
+    def clear(
+            self,
+            color=(0, 0, 0)
+    ) -> None:
         self._surface.fill(color)
         if not isinstance(color, tuple):
             open_log().log(
@@ -124,10 +143,14 @@ class Window:
                 f"clear: color[2] must be an int (currently {repr(type(color[2]))})"
             )
 
-    def display(self) -> None:
+    def display(
+            self
+    ) -> None:
         pygame.display.flip()
 
-    def close(self) -> None:
+    def close(
+            self
+    ) -> None:
         open_log().log(
             "INFO",
             "Window",
@@ -135,7 +158,10 @@ class Window:
         )
         self._running = False
 
-    def set_size(self, size: tuple[int, int]) -> None:
+    def set_size(
+            self,
+            size: tuple[int, int]
+    ) -> None:
         if not isinstance(size, tuple):
             open_log().log(
                 "WARN",
@@ -165,10 +191,14 @@ class Window:
         self._size = pygame.display.get_window_size()
         pygame.display.update()
 
-    def get_size(self) -> tuple[int, int]:
+    def get_size(
+            self
+    ) -> tuple[int, int]:
         return self._size
 
-    def __repr__(self) -> str:
+    def __repr__(
+            self
+    ) -> str:
         return (
             f"<Window "
             f"title='{self._title}' "

@@ -23,7 +23,15 @@ from bscp.Utils.vector import Vector
 
 class NPC:
 
-    def __init__(self, x: float, y: float, sprite: Optional["Sprite"], enemy: Optional[List[str]], faction_name: str = "FP", max_speed: float = 0.5) -> None:
+    def __init__(
+            self,
+            x: float,
+            y: float,
+            sprite: Optional["Sprite"],
+            enemy: Optional[List[str]],
+            faction_name: str = "FP",
+            max_speed: float = 0.5
+    ) -> None:
         if not isinstance(x, float):
             open_log().log(
                 "WARN",
@@ -67,10 +75,14 @@ class NPC:
         self.max_speed: float = max_speed
         self.target_loc: Optional[Vector] = None
         self.path: List[Vector] = []
-        self.follow_entity: Optional["Entity"] = None
+        self.follow_entity: "NPC | SCP | None" = None
         open_log().log("VALID", "NPC", f"created: {repr(self)}")
 
-    def update(self, dt: float, map: TileMap) -> None:
+    def update(
+            self,
+            dt: float,
+            map: TileMap
+    ) -> None:
         if not isinstance(dt, float):
             open_log().log(
                 "WARN",
@@ -118,7 +130,13 @@ class NPC:
         if self.sprite is not None:
             self.sprite.position = self.position
 
-    def draw(self, surface, zoom: float, position: Vector) -> None:
+    def draw(
+            self,
+            surface,
+            zoom: float,
+            position: Vector,
+            view_rect=None
+    ) -> None:
         if not isinstance(surface, pygame.Surface):
             open_log().log(
                 "ERROR",
@@ -140,9 +158,12 @@ class NPC:
             )
             return
         if self.sprite:
-            self.sprite.draw(surface, zoom, position)
+            self.sprite.draw(surface, zoom, position, view_rect)
 
-    def set_target_loc(self, target_loc: Vector) -> None:
+    def set_target_loc(
+            self,
+            target_loc: Vector
+    ) -> None:
         if not isinstance(target_loc, Vector):
             open_log().log(
                 "ERROR",
@@ -153,7 +174,9 @@ class NPC:
         self.target_loc = target_loc
         open_log().log("INFO", "NPC", f"new target : {repr(target_loc)}")
 
-    def __repr__(self) -> str:
+    def __repr__(
+            self
+    ) -> str:
         return (
             f"<NPC "
             f"id={str(self.id)} "

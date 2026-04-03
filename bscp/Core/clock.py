@@ -15,7 +15,9 @@ from bscp.Systems import open_log
 
 class Clock:
 
-    def __init__(self) -> None:
+    def __init__(
+            self
+    ) -> None:
         self._last_time: float = time.perf_counter()
         self._delta_time: float = 0.0
         self._time_scale: float = 1.0
@@ -29,15 +31,22 @@ class Clock:
         )
 
     @property
-    def delta_time(self) -> float:
+    def delta_time(
+            self
+    ) -> float:
         return self._delta_time * self._time_scale
 
     @property
-    def time_scale(self) -> float:
+    def time_scale(
+            self
+    ) -> float:
         return self._time_scale
 
     @time_scale.setter
-    def time_scale(self, scale: float) -> None:
+    def time_scale(
+            self,
+            scale: float
+    ) -> None:
         if not isinstance(scale, float):
             open_log().log(
                 "WARN",
@@ -54,20 +63,22 @@ class Clock:
         self._time_scale = scale
 
     @property
-    def fps(self) -> float:
+    def fps(
+            self
+    ) -> float:
         return self._fps
 
-    def tick(self) -> None:
+    def tick(
+            self
+    ) -> None:
         current_time = time.perf_counter()
         self._delta_time = current_time - self._last_time
         self._last_time = current_time
-        self._frame_count += 1
-        if current_time - self._fps_timer >= 1.0:
-            self._fps = self._frame_count / (current_time - self._fps_timer)
-            self._frame_count = 0
-            self._fps_timer = current_time
 
-    def sleep(self, duration: float) -> None:
+    def sleep(
+            self,
+            duration: float
+    ) -> None:
         if not isinstance(duration, float):
             open_log().log(
                 "WARN",
@@ -83,12 +94,28 @@ class Clock:
             return
         time.sleep(duration / self._time_scale)
 
-    def reset(self) -> None:
+    def reset(
+            self
+    ) -> None:
         self._last_time = time.perf_counter()
         self._delta_time = 0.0
         self._frame_count = 0
         self._fps = 0.0
         self._fps_timer = self._last_time
 
-    def __repr__(self) -> str:
+    def frame(
+            self
+    ) -> None:
+        current_time = time.perf_counter()
+        self._frame_count += 1
+
+        elapsed = current_time - self._fps_timer
+        if elapsed >= (1 / 8):
+            self._fps = self._frame_count / elapsed
+            self._frame_count = 0
+            self._fps_timer = current_time
+
+    def __repr__(
+            self
+    ) -> str:
         return f"<Clock delta_time={self._delta_time:.4f} fps={self._fps:.2f} time_scale={self._time_scale}>"

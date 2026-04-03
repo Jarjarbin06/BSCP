@@ -15,7 +15,18 @@ from bscp.Systems.logger_instance import open_log
 
 class Button:
 
-    def __init__(self, name: str, text: str, x: float, y: float, width: float, height: float, color: tuple[int, int, int], border_color: tuple[int, int, int], border_size: int):
+    def __init__(
+            self,
+            name: str,
+            text: str,
+            x: float,
+            y: float,
+            width: float,
+            height: float,
+            color: tuple[int, int, int],
+            border_color: tuple[int, int, int],
+            border_size: int
+    ):
         self.name = name
         self.text = text
         self.rect = pygame.Rect(x, y, width, height)
@@ -26,7 +37,10 @@ class Button:
         self.font = pygame.font.SysFont('Corbel', 30)
         open_log().log("VALID", "Button", f"created: {repr(self)}")
 
-    def draw(self, surface):
+    def draw(
+            self,
+            surface
+    ):
         if self.is_hovered():
             pygame.draw.rect(surface, self.border_color, self.rect_back)
             pygame.draw.rect(surface, self.selected_color, self.rect)
@@ -36,13 +50,17 @@ class Button:
         text_surface = self.font.render(self.text, True, (255, 255, 255))
         surface.blit(text_surface, (self.rect.x + 10, self.rect.y + 10))
 
-    def is_hovered(self):
+    def is_hovered(
+            self
+    ):
         mouse = pygame.mouse.get_pos()
         if self.rect.collidepoint(mouse):
             return True
         return False
 
-    def is_clicked(self) -> tuple[bool, bool, bool]:
+    def is_clicked(
+            self
+    ) -> tuple[bool, bool, bool]:
         click = pygame.mouse.get_pressed()
 
         if self.is_hovered():
@@ -50,7 +68,9 @@ class Button:
             return click
         return False, False, False
 
-    def __repr__(self) -> str:
+    def __repr__(
+            self
+    ) -> str:
         return (
             f"<Button "
             f"text='{self.text}' "

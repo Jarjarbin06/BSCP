@@ -1,26 +1,8 @@
-# BSCP : Foundation Architect — Development Checklist
-
-## Map editor
-
-[ ] make the base of the map editor #MapEditor
+[@] make the base of the map editor #MapEditor
 [ ] add element placement #MapEditor
 [ ] add element rotation #MapEditor
 [ ] add element deletetion #MapEditor
 [ ] add walls, ground, roof, spawner, floors, decorations, etc... #MapEditor
 [ ] have multiple styles for each entityc #MapEditor
-
-## AI
-
-[ ] make the base AI #AI
-[ ] update AI for every factions and the base SCP #AI
-    CD, CI, IA, ISD, MD, MTF, O5, RRT, SCD, SD, SID
-[ ] make the different AI intereact with each  #AI
-
-## Map management
-
-[ ] make a solid TileMap saving system #MapManagement
-[ ] make a loading system #MapManagement
-
----
-
-Build. Secure. Contain. Protect.
+[?] make a solid TileMap saving system #MapManagement
+[?] make a loading system #MapManagement

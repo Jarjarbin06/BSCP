@@ -17,7 +17,10 @@ from bscp.Utils.vector import Vector
 class Pathfinder:
 
     @staticmethod
-    def neighbors(node: Vector, tilemap: "TileMap") -> List[Vector]:
+    def neighbors(
+            node: Vector,
+            tilemap: "TileMap"
+    ) -> List[Vector]:
         directions = [
             Vector(1, 0),
             Vector(-1, 0),
@@ -28,8 +31,8 @@ class Pathfinder:
         for d in directions:
             n = node + d
             if (
-                0 <= int(n.y) < len(tilemap.tiles)
-                and 0 <= int(n.x) < len(tilemap.tiles[0])
+                    0 <= int(n.y) < len(tilemap.tiles)
+                    and 0 <= int(n.x) < len(tilemap.tiles[0])
             ):
                 tile = tilemap.tiles[int(n.y)][int(n.x)]
                 if tile.entity is None:  # walkable
@@ -37,11 +40,17 @@ class Pathfinder:
         return result
 
     @staticmethod
-    def heuristic(a: Vector, b: Vector) -> float:
+    def heuristic(
+            a: Vector,
+            b: Vector
+    ) -> float:
         return a.distance_to(b)
 
     @staticmethod
-    def reconstruct(came_from: Dict[Vector, Vector], current: Vector) -> List[Vector]:
+    def reconstruct(
+            came_from: Dict[Vector, Vector],
+            current: Vector
+    ) -> List[Vector]:
         path = [current]
         while current in came_from:
             current = came_from[current]
@@ -50,7 +59,11 @@ class Pathfinder:
         return path
 
     @staticmethod
-    def find_path(start: Vector, goal: Vector, tilemap: "TileMap") -> Optional[List[Vector]]:
+    def find_path(
+            start: Vector,
+            goal: Vector,
+            tilemap: "TileMap"
+    ) -> Optional[List[Vector]]:
         open_set = []
         heappush(open_set, (0, start))
         came_from: Dict[Vector, Vector] = {}

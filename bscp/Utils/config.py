@@ -64,61 +64,102 @@ class BSCPConfig:
             data=(None if BaseConfig.exist(self.path, file_name=self.file_name + ".ini") else self.DEFAULT_CONFIG),
         )
 
-    def __repr__(self) -> str:
+    def __repr__(
+            self
+    ) -> str:
         return f"BSCPConfig(path={self.path!r}, file_name={self.file_name!r})"
 
-    def __str__(self) -> str:
+    def __str__(
+            self
+    ) -> str:
         return f"BSCPConfig<{self.path}{self.file_name}>"
 
-    def set(self, section: str, option: str, value) -> None:
+    def set(
+            self,
+            section: str,
+            option: str,
+            value
+    ) -> None:
         self._config.set(section, option, value)
 
-    def get(self, section: str, option: str):
+    def get(
+            self,
+            section: str,
+            option: str
+    ):
         return self._config.get(section, option)
 
-    def get_int(self, section: str, option: str) -> int:
+    def get_int(
+            self,
+            section: str,
+            option: str
+    ) -> int:
         return self._config.get_int(section, option)
 
-    def get_float(self, section: str, option: str) -> float:
+    def get_float(
+            self,
+            section: str,
+            option: str
+    ) -> float:
         return self._config.get_float(section, option)
 
-    def get_bool(self, section: str, option: str) -> bool:
+    def get_bool(
+            self,
+            section: str,
+            option: str
+    ) -> bool:
         return self._config.get_bool(section, option)
 
     @property
-    def tile_size(self) -> int:
+    def tile_size(
+            self
+    ) -> int:
         return self.get_int("GAME", "tile_size")
 
     @property
-    def map_size(self) -> tuple[int, int]:
+    def map_size(
+            self
+    ) -> tuple[int, int]:
         return (
             self.get_int("GAME", "map_width"),
             self.get_int("GAME", "map_height")
         )
 
     @property
-    def debug(self) -> bool:
+    def debug(
+            self
+    ) -> bool:
         return self.get_bool("GAME", "debug")
 
     @property
-    def window_size(self) -> tuple[int, int]:
+    def window_size(
+            self
+    ) -> tuple[int, int]:
         return (
             self.get_int("WINDOW", "width"),
             self.get_int("WINDOW", "height")
         )
 
     @property
-    def vsync(self) -> bool:
+    def vsync(
+            self
+    ) -> bool:
         return self.get_bool("WINDOW", "vsync")
 
     @property
-    def fps(self) -> int:
+    def fps(
+            self
+    ) -> int:
         return self.get_int("WINDOW", "fps")
 
     @property
-    def log_enabled(self) -> bool:
+    def log_enabled(
+            self
+    ) -> bool:
         return self.get_bool("LOG", "enabled")
 
     @property
-    def log_json(self) -> bool:
+    def log_json(
+            self
+    ) -> bool:
         return self.get_bool("LOG", "json")

@@ -18,9 +18,17 @@ from bscp.Utils.vector import Vector
 
 class Sprite(pygame.sprite.Sprite):
 
-    def __init__(self, texture_path: str, position=(0, 0), size=(open_config().tile_size, open_config().tile_size), game: "Game | None" = None) -> None:
+    def __init__(
+            self,
+            texture_path: str,
+            position=(0, 0),
+            size=(open_config().tile_size, open_config().tile_size),
+            game: "Game | None" = None
+    ) -> None:
 
-        def clean_texture(texture_path: str):
+        def clean_texture(
+                texture_path: str
+        ):
             file_name = texture_path.split("/")[-1]
             path = texture_path.removesuffix(file_name)
             new_texture_path = f"{path}bscp_clean_{file_name}"
@@ -30,7 +38,7 @@ class Sprite(pygame.sprite.Sprite):
                 if mode == "L":
                     im = im.convert("L")
                     open_log().log(
-                        "INFO",
+                        "DEBUG",
                         "Sprite",
                         f"image converted: {repr(mode)} -> {repr(im.mode)}"
                     )
@@ -40,7 +48,7 @@ class Sprite(pygame.sprite.Sprite):
                     open_log().log("INFO", "Sprite", f"image converted: {repr(mode)} -> {repr(im.mode)}")
                 im.save(new_texture_path, icc_profile=None)
                 open_log().log(
-                    "INFO",
+                    "DEBUG",
                     "Sprite",
                     f"image cleaned: {repr(texture_path)} -> {repr(new_texture_path)}"
                 )
@@ -115,7 +123,13 @@ class Sprite(pygame.sprite.Sprite):
         self.rect.topleft = position
         open_log().log("VALID", "Sprite", f"created: {repr(self)}")
 
-    def draw(self, surface, zoom: float, camera_pos: Vector) -> None:
+    def draw(
+            self,
+            surface,
+            zoom: float,
+            camera_pos: Vector,
+            view_rect=None
+    ) -> None:
         if not isinstance(surface, pygame.Surface):
             open_log().log(
                 "ERROR",
@@ -136,17 +150,24 @@ class Sprite(pygame.sprite.Sprite):
                 f"draw: camera_pos must be a Vector (currently {repr(type(camera_pos))})"
             )
             return
+        if view_rect is None:
+            view_rect = surface.get_rect()
         scaled_w = max(1, int(self.size.x * zoom))
         scaled_h = max(1, int(self.size.y * zoom))
+        screen_x = (self.position.x - camera_pos.x) * open_config().tile_size * zoom
+        screen_y = (self.position.y - camera_pos.y) * open_config().tile_size * zoom
+        sprite_rect = pygame.Rect(screen_x, screen_y, scaled_w, scaled_h)
+        if not view_rect.colliderect(sprite_rect):
+            return
         if zoom <= 2:
             temp_image = pygame.transform.smoothscale(self.original_image, (scaled_w, scaled_h))
         else:
             temp_image = pygame.transform.scale(self.original_image, (scaled_w, scaled_h))
-        screen_x = (self.position.x - camera_pos.x) * open_config().tile_size * zoom
-        screen_y = (self.position.y - camera_pos.y) * open_config().tile_size * zoom
         surface.blit(temp_image, (screen_x, screen_y))
 
-    def __repr__(self) -> str:
+    def __repr__(
+            self
+    ) -> str:
         return (
             f"<Sprite "
             f"pos={self.position} "
